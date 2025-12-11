@@ -51,7 +51,23 @@
 </div>
 <!-- [ Pre-loader ] End -->
 
- <!-- Required Js -->
+{{-- //sidebar --}}
+@include('layout.sidebar')
+
+{{-- Header --}}
+    @include('layout.headertopbar')
+
+<main class="content">
+    {{-- content --}}
+    @yield('content')
+    {{-- ini footer --}}
+    @include('layout.footer')
+</main>
+
+{{-- ini js --}}
+@include('layout.requiredjs')
+
+<!-- Required Js -->
 <script src="../assets/js/plugins/popper.min.js"></script>
 <script src="../assets/js/plugins/simplebar.min.js"></script>
 <script src="../assets/js/plugins/bootstrap.min.js"></script>
