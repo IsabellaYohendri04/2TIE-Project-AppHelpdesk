@@ -136,16 +136,14 @@
               <i class="ti ti-user"></i>
               <span>Social Profile</span>
             </a>
-            <a href="{{ route('logout') }}"
-   class="dropdown-item"
-   onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+            <a href="#" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#logoutModal">
     <i class="ti ti-logout"></i>
     <span>Logout</span>
 </a>
-
 <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
     @csrf
 </form>
+
 
           </div>
         </div>
