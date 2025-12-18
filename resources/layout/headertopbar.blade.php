@@ -13,16 +13,15 @@
       </a>
     </li>
     <li class="dropdown pc-h-item d-inline-flex d-md-none">
-      <a
+      <button
+        type="button"
         class="pc-head-link head-link-secondary dropdown-toggle arrow-none m-0"
         data-bs-toggle="dropdown"
-        href="#"
-        role="button"
         aria-haspopup="false"
         aria-expanded="false"
       >
         <i class="ti ti-search"></i>
-      </a>
+      </button>
       <div class="dropdown-menu pc-h-dropdown drp-search">
         <form class="px-3">
           <div class="mb-0 d-flex align-items-center">
@@ -45,16 +44,15 @@
 <div class="ms-auto">
   <ul class="list-unstyled">
     <li class="dropdown pc-h-item">
-      <a
+      <button
+        type="button"
         class="pc-head-link head-link-secondary dropdown-toggle arrow-none me-0"
         data-bs-toggle="dropdown"
-        href="#"
-        role="button"
         aria-haspopup="false"
         aria-expanded="false"
       >
         <i class="ti ti-bell"></i>
-      </a>
+      </button>
       <div class="dropdown-menu dropdown-notification dropdown-menu-end pc-h-dropdown">
         <div class="dropdown-header">
           <a href="#!" class="link-primary float-end text-decoration-underline">Mark as all read</a>
@@ -100,11 +98,10 @@
       </div>
     </li>
     <li class="dropdown pc-h-item header-user-profile">
-      <a
+      <button
+        type="button"
         class="pc-head-link head-link-primary dropdown-toggle arrow-none me-0"
         data-bs-toggle="dropdown"
-        href="#"
-        role="button"
         aria-haspopup="false"
         aria-expanded="false"
       >
@@ -112,7 +109,7 @@
         <span>
           <i class="ti ti-settings"></i>
         </span>
-      </a>
+      </button>
       <div class="dropdown-menu dropdown-user-profile dropdown-menu-end pc-h-dropdown">
         <div class="dropdown-header">
           <h4>
@@ -145,6 +142,7 @@
       </div>
     </li>
   </ul>
+  
 </div>
 </div>
 </header>

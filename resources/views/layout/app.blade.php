@@ -3,111 +3,79 @@
   <!-- [Head] start -->
   <head>
     <title>Helpdesk</title>
-    <!-- [Meta] -->
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta
-      name="description"
-      content="Berry is trending dashboard template made using Bootstrap 5 design framework. Berry is available in Bootstrap, React, CodeIgniter, Angular,  and .net Technologies."
-    />
-    <meta
-      name="keywords"
-      content="Bootstrap admin template, Dashboard UI Kit, Dashboard Template, Backend Panel, react dashboard, angular dashboard"
-    />
+
+    <meta name="description" content="Berry is trending dashboard template made using Bootstrap 5 design framework." />
+    <meta name="keywords" content="Bootstrap admin template, Dashboard UI Kit" />
     <meta name="author" content="codedthemes" />
 
-    <!-- [Favicon] icon -->
+    <!-- [Favicon] -->
     <link rel="icon" href="../assets/images/favicon.svg" type="image/x-icon" />
- <!-- [Google Font] Family -->
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" id="main-font-link" />
-<!-- [phosphor Icons] https://phosphoricons.com/ -->
-<link rel="stylesheet" href="../assets/fonts/phosphor/duotone/style.css" />
-<!-- [Tabler Icons] https://tablericons.com -->
-<link rel="stylesheet" href="../assets/fonts/tabler-icons.min.css" />
-<!-- [Feather Icons] https://feathericons.com -->
-<link rel="stylesheet" href="../assets/fonts/feather.css" />
-<!-- [Font Awesome Icons] https://fontawesome.com/icons -->
-<link rel="stylesheet" href="../assets/fonts/fontawesome.css" />
-<!-- [Material Icons] https://fonts.google.com/icons -->
-<link rel="stylesheet" href="../assets/fonts/material.css" />
-<!-- [Template CSS Files] -->
-<link rel="stylesheet" href="../assets/css/style.css" id="main-style-link" />
-<link rel="stylesheet" href="../assets/css/style-preset.css" />
 
+    <!-- Fonts & Icons -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" />
+    <link rel="stylesheet" href="../assets/fonts/phosphor/duotone/style.css" />
+    <link rel="stylesheet" href="../assets/fonts/tabler-icons.min.css" />
+    <link rel="stylesheet" href="../assets/fonts/feather.css" />
+    <link rel="stylesheet" href="../assets/fonts/fontawesome.css" />
+    <link rel="stylesheet" href="../assets/fonts/material.css" />
+
+    <!-- Template CSS -->
+    <link rel="stylesheet" href="../assets/css/style.css" />
+    <link rel="stylesheet" href="../assets/css/style-preset.css" />
   </head>
   <!-- [Head] end -->
-
 
   <!-- [Body] Start -->
   <body>
 
-  
-    <!-- [ Pre-loader ] start -->
-<div class="loader-bg">
-  <div class="loader-track">
-    <div class="loader-fill"></div>
-  </div>
-</div>
-<!-- [ Pre-loader ] End -->
+    <!-- Preloader -->
+    <div class="loader-bg">
+      <div class="loader-track">
+        <div class="loader-fill"></div>
+      </div>
+    </div>
 
-{{-- //sidebar --}}
-@include('layout.sidebar')
+    {{-- Sidebar --}}
+    @include('layout.sidebar')
 
-{{-- Header --}}
-    @include('layout.headertopbar')
+    <!-- 🔴 WRAPPER WAJIB -->
+    <div class="pc-wrapper">
 
-<main class="content">
-    {{-- content --}}
-    @yield('content')
-    {{-- ini footer --}}
-    @include('layout.footer')
-</main>
+        {{-- Header --}}
+        @include('layout.headertopbar')
 
-{{-- ini js --}}
-@include('layout.requiredjs')
+        <!-- 🔴 CONTENT UTAMA -->
+        <div class="pc-content">
+            @yield('content')
+        </div>
 
-<!-- Required Js -->
-<script src="../assets/js/plugins/popper.min.js"></script>
-<script src="../assets/js/plugins/simplebar.min.js"></script>
-<script src="../assets/js/plugins/bootstrap.min.js"></script>
-<script src="../assets/js/icon/custom-font.js"></script>
-<script src="../assets/js/script.js"></script>
-<script src="../assets/js/theme.js"></script>
-<script src="../assets/js/plugins/feather.min.js"></script>
+    </div>
 
-   
-<script>
-  layout_change('light');
-</script>
-   
-<script>
-  font_change('Roboto');
-</script>
- 
-<script>
-  change_box_container('false');
-</script>
- 
-<script>
-  layout_caption_change('true');
-</script>
-   
-<script>
-  layout_rtl_change('false');
-</script>
- 
-<script>
-  preset_change('preset-1');
-</script>
+    {{-- JS --}}
+    <script src="../assets/js/plugins/popper.min.js"></script>
+    <script src="../assets/js/plugins/simplebar.min.js"></script>
+    <script src="../assets/js/plugins/bootstrap.min.js"></script>
+    <script src="../assets/js/icon/custom-font.js"></script>
+    <script src="../assets/js/script.js"></script>
+    <script src="../assets/js/theme.js"></script>
+    <script src="../assets/js/plugins/feather.min.js"></script>
 
+    <script>
+      layout_change('light');
+      font_change('Roboto');
+      change_box_container('false');
+      layout_caption_change('true');
+      layout_rtl_change('false');
+      preset_change('preset-1');
+    </script>
 
-
-    <!-- [Page Specific JS] start -->
-    <!-- Apex Chart -->
+    <!-- Page Specific JS -->
     <script src="../assets/js/plugins/apexcharts.min.js"></script>
     <script src="../assets/js/pages/dashboard-default.js"></script>
-    <!-- [Page Specific JS] end -->
+
   </body>
   <!-- [Body] end -->
 </html>
