@@ -1,81 +1,65 @@
 <!doctype html>
 <html lang="en">
-  <!-- [Head] start -->
-  <head>
+<head>
     <title>Helpdesk</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 
-    <meta name="description" content="Berry is trending dashboard template made using Bootstrap 5 design framework." />
-    <meta name="keywords" content="Bootstrap admin template, Dashboard UI Kit" />
+    <!-- Meta -->
+    <meta name="description" content="Berry Bootstrap Admin Dashboard" />
     <meta name="author" content="codedthemes" />
 
-    <!-- [Favicon] -->
-    <link rel="icon" href="../assets/images/favicon.svg" type="image/x-icon" />
+    <!-- Favicon -->
+    <link rel="icon" href="{{ asset('assets/images/favicon.svg') }}" type="image/x-icon" />
 
     <!-- Fonts & Icons -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" />
-    <link rel="stylesheet" href="../assets/fonts/phosphor/duotone/style.css" />
-    <link rel="stylesheet" href="../assets/fonts/tabler-icons.min.css" />
-    <link rel="stylesheet" href="../assets/fonts/feather.css" />
-    <link rel="stylesheet" href="../assets/fonts/fontawesome.css" />
-    <link rel="stylesheet" href="../assets/fonts/material.css" />
+    <link rel="stylesheet" href="{{ asset('assets/fonts/phosphor/duotone/style.css') }}" />
+    <link rel="stylesheet" href="{{ asset('assets/fonts/tabler-icons.min.css') }}" />
+    <link rel="stylesheet" href="{{ asset('assets/fonts/feather.css') }}" />
+    <link rel="stylesheet" href="{{ asset('assets/fonts/fontawesome.css') }}" />
+    <link rel="stylesheet" href="{{ asset('assets/fonts/material.css') }}" />
 
-    <!-- Template CSS -->
-    <link rel="stylesheet" href="../assets/css/style.css" />
-    <link rel="stylesheet" href="../assets/css/style-preset.css" />
-  </head>
-  <!-- [Head] end -->
+    <!-- Berry CSS -->
+    <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}" />
+    <link rel="stylesheet" href="{{ asset('assets/css/style-preset.css') }}" />
+    <link rel="stylesheet" href="{{ asset('assets/css/themes/dark.css') }}" />
 
-  <!-- [Body] Start -->
-  <body>
+    @stack('css')
+</head>
+
+<body>
 
     <!-- Preloader -->
     <div class="loader-bg">
-      <div class="loader-track">
-        <div class="loader-fill"></div>
-      </div>
+        <div class="loader-track">
+            <div class="loader-fill"></div>
+        </div>
     </div>
 
-    {{-- Sidebar --}}
+    <!-- Sidebar -->
     @include('layout.sidebar')
 
-    <!-- 🔴 WRAPPER WAJIB -->
+    <!-- Wrapper -->
     <div class="pc-wrapper">
 
-        {{-- Header --}}
+        <!-- Header / Topbar -->
         @include('layout.headertopbar')
 
-        <!-- 🔴 CONTENT UTAMA -->
-        <div class="pc-content">
-            @yield('content')
-        </div>
+       
+        <!-- Footer -->
+        @include('layout.footer')
 
     </div>
 
-    {{-- JS --}}
-    <script src="../assets/js/plugins/popper.min.js"></script>
-    <script src="../assets/js/plugins/simplebar.min.js"></script>
-    <script src="../assets/js/plugins/bootstrap.min.js"></script>
-    <script src="../assets/js/icon/custom-font.js"></script>
-    <script src="../assets/js/script.js"></script>
-    <script src="../assets/js/theme.js"></script>
-    <script src="../assets/js/plugins/feather.min.js"></script>
-
-    <script>
-      layout_change('light');
-      font_change('Roboto');
-      change_box_container('false');
-      layout_caption_change('true');
-      layout_rtl_change('false');
-      preset_change('preset-1');
-    </script>
+    <!-- Required JS -->
+    @include('layout.requiredjs')
 
     <!-- Page Specific JS -->
-    <script src="../assets/js/plugins/apexcharts.min.js"></script>
-    <script src="../assets/js/pages/dashboard-default.js"></script>
+    @include('layout.pagespesificjs')
 
-  </body>
-  <!-- [Body] end -->
+    @stack('js')
+
+</body>
 </html>

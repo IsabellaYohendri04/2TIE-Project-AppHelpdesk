@@ -5,59 +5,57 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\PelangganController;
-use App\Http\Controllers\HomeController;
 
 /*
 |--------------------------------------------------------------------------
-| GUEST (belum login)
+| GUEST (BELUM LOGIN)
 |--------------------------------------------------------------------------
 */
 Route::middleware('guest')->group(function () {
 
-    // Halaman login
-    Route::get('/auth', [AuthController::class, 'index'])->name('login');
-
-    // Proses login
-    Route::post('/auth/login', [AuthController::class, 'login'])->name('login.process');
-
-    // Landing page
     Route::get('/', function () {
         return view('welcome');
-    });
+    })->name('welcome');
 
+    Route::get('/login', function () {
+        return view('auth.login');
+    })->name('login');
+
+    Route::post('/login', [AuthController::class, 'login'])
+        ->name('login.process');
 });
 
 /*
 |--------------------------------------------------------------------------
-| AUTH (sudah login)
+| AUTH (SUDAH LOGIN)
 |--------------------------------------------------------------------------
 */
 Route::middleware('auth')->group(function () {
 
-    // Logout
-    Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+    // LOGOUT (POST)
+    Route::post('/logout', [AuthController::class, 'logout'])
+        ->name('logout');
 
-    // Dashboard USER BIASA
+    // DASHBOARD UMUM (SEMUA ROLE MASUK SINI DULU)
     Route::get('/dashboard', [DashboardController::class, 'index'])
         ->name('dashboard');
-
-    // Home alternatif (opsional)
-    Route::get('/home', [HomeController::class, 'index'])->name('home');
 
     /*
     |--------------------------------------------------------------------------
     | ADMIN ONLY
     |--------------------------------------------------------------------------
     */
-    Route::middleware(['role:admin'])->prefix('admin')->name('admin.')->group(function () {
+    Route::middleware('role:admin')
+        ->prefix('admin')
+        ->name('admin.')
+        ->group(function () {
 
-        Route::get('/dashboard', function () {
-            return view('dashboard.admin');
-        })->name('dashboard');
+            Route::get('/dashboard', function () {
+                return view('dashboard');
+            })->name('dashboard');
 
-        Route::resource('user', UserController::class);
-        Route::resource('pelanggan', PelangganController::class);
-
-    });
+            Route::resource('user', UserController::class);
+            Route::resource('pelanggan', PelangganController::class);
+        });
 
 });
