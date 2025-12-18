@@ -95,6 +95,26 @@
 </div>
 
 <script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    const toggleBtn = document.getElementById("sidebar-hide");
+    const body = document.body;
+
+    if (!toggleBtn) return;
+
+    toggleBtn.addEventListener("click", function (e) {
+        e.preventDefault();
+
+        // CLASS RESMI BERRY ADMIN
+        body.classList.toggle("pc-sidebar-collapse");
+    });
+
+});
+</script>
+
+
+
+<script>
 function submitLogout() {
     document.getElementById('logout-form').submit();
 }

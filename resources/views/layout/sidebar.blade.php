@@ -20,10 +20,6 @@
           <a href="../dashboard/index.html" class="pc-link"><span class="pc-micon"><i
                 class="ti ti-dashboard"></i></span><span class="pc-mtext">Default</span></a>
         </li>
-
-
-
-
         <li class="pc-item pc-caption">
           <label>Other</label>
           <i class="ti ti-brand-chrome"></i>
