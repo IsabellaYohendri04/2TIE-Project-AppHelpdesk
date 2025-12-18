@@ -43,16 +43,20 @@
     @include('layout.sidebar')
 
     <!-- Wrapper -->
-    <div class="pc-wrapper">
+<div class="pc-wrapper">
 
-        <!-- Header / Topbar -->
-        @include('layout.headertopbar')
+    <!-- Header / Topbar -->
+    @include('layout.headertopbar')
 
-       
-        <!-- Footer -->
-        @include('layout.footer')
-
+    <!-- CONTENT WAJIB ADA -->
+    <div class="pc-content">
+        @yield('content')
     </div>
+
+    <!-- Footer -->
+    @include('layout.footer')
+
+</div>
 
     <!-- Required JS -->
     @include('layout.requiredjs')
@@ -94,23 +98,7 @@
   </div>
 </div>
 
-<script>
-document.addEventListener("DOMContentLoaded", function () {
 
-    const toggleBtn = document.getElementById("sidebar-hide");
-    const body = document.body;
-
-    if (!toggleBtn) return;
-
-    toggleBtn.addEventListener("click", function (e) {
-        e.preventDefault();
-
-        // CLASS RESMI BERRY ADMIN
-        body.classList.toggle("pc-sidebar-collapse");
-    });
-
-});
-</script>
 
 
 
