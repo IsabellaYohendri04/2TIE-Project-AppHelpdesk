@@ -2,11 +2,11 @@
   <div class="header-wrapper">
 <div class="me-auto pc-mob-drp">
   <ul class="list-unstyled">
-    <li class="pc-h-item header-mobile-collapse">
+    {{-- <li class="pc-h-item header-mobile-collapse">
   <a href="#" class="pc-head-link head-link-secondary ms-0" id="sidebar-hide">
     <i class="ti ti-menu-2"></i>
   </a>
-</li>
+</li> --}}
 
     <li class="pc-h-item pc-sidebar-popup">
       <a href="#" class="pc-head-link head-link-secondary ms-0" id="mobile-collapse">
@@ -82,7 +82,7 @@
             <div class="list-group-item list-group-item-action">
               <div class="d-flex">
                 <div class="flex-shrink-0">
-                  <img src="../assets/images/user/avatar-3.jpg" alt="user-image" class="user-avtar" />
+                  <img src="{{ asset('assets/images/user/avatar-3.jpg') }}" alt="user-image" class="user-avtar" />
                 </div>
                 <div class="flex-grow-1 ms-1">
                   <span class="float-end text-muted">10 min ago</span>
@@ -109,7 +109,7 @@
         aria-haspopup="false"
         aria-expanded="false"
       >
-        <img src="../assets/images/user/avatar-2.jpg" alt="user-image" class="user-avtar" />
+        <img src="{{ asset('assets/images/user/avatar-2.jpg') }}" alt="user-image" class="user-avtar" />
         <span>
           <i class="ti ti-settings"></i>
         </span>

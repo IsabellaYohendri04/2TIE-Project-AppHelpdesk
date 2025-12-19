@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Spatie\Permission\Traits\HasRoles;
+use App\Models\Ticket;
 
 class User extends Authenticatable
 {
@@ -45,5 +46,13 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    /**
+     * Relasi ke tiket yang ditangani sebagai staf helpdesk.
+     */
+    public function ticketsHandled()
+    {
+        return $this->hasMany(Ticket::class, 'assigned_to');
     }
 }

@@ -4,11 +4,12 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\PelangganController;
+use App\Http\Controllers\TicketController;
+use App\Http\Controllers\StaffUserController;
 
 /*
 |--------------------------------------------------------------------------
-| GUEST (BELUM LOGIN)
+| GUEST (BELUM LOGIN)/tidak login
 |--------------------------------------------------------------------------
 */
 Route::middleware('guest')->group(function () {
@@ -54,8 +55,12 @@ Route::middleware('auth')->group(function () {
                 return view('dashboard');
             })->name('dashboard');
 
-            Route::resource('user', UserController::class);
-            Route::resource('pelanggan', PelangganController::class);
+            // CRUD Tiket Helpdesk IT (khusus Admin)
+            Route::resource('ticket', TicketController::class);
+
+            // Manajemen User Staf Helpdesk (khusus Admin)
+            Route::resource('staff', StaffUserController::class)
+                ->parameters(['staff' => 'staff']);
         });
 
 });
