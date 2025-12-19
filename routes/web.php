@@ -41,6 +41,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])
         ->name('dashboard');
 
+    Route::get('/multipleuploads', 'MultipleuploadsController@index')->name('uploads');
+    Route::post('/save','MultipleuploadsController@store')->name('uploads.store');
+
+
     /*
     |--------------------------------------------------------------------------
     | ADMIN ONLY
