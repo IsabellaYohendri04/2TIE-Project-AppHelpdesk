@@ -1,6 +1,6 @@
 @extends('layout.app')
 @section('content')
- 
+
  <div class="pc-container">
       <div class="pc-content">
         <!-- [ Main Content ] start -->
@@ -280,4 +280,9 @@
       </div>
     </div>
 
-    
+@endsection
+
+@push('js')
+<script src="{{ asset('assets/js/plugins/apexcharts.min.js') }}"></script>
+<script src="{{ asset('assets/js/pages/dashboard-default.js') }}"></script>
+@endpush

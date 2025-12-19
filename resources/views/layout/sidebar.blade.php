@@ -1,9 +1,9 @@
 <nav class="pc-sidebar">
   <div class="navbar-wrapper">
     <div class="m-header">
-      <a href="../dashboard/index.html" class="b-brand text-primary">
+      <a href="{{ route('dashboard') }}" class="b-brand text-primary">
         <!-- ========   Change your logo from here   ============ -->
-        <img src="../assets/images/logo-dark.svg" alt="" class="logo logo-lg" />
+        <img src="{{ asset('assets/images/logo-dark.svg') }}" alt="Logo Helpdesk" class="logo logo-lg" />
       </a>
     </div>
     <div class="navbar-content">
@@ -13,13 +13,31 @@
           <i class="ti ti-dashboard"></i>
         </li>
         <li class="pc-item">
-          <a href="{{ route('dashboard') }}" class="pc-link"><span class="pc-micon"><i
-                class="ti ti-dashboard"></i></span><span class="pc-mtext">Dashboard</span></a>
+          <a href="{{ route('dashboard') }}" class="pc-link">
+            <span class="pc-micon"><i class="ti ti-dashboard"></i></span>
+            <span class="pc-mtext">Dashboard</span>
+          </a>
+        </li>
+
+        @role('admin')
+        <li class="pc-item pc-caption">
+          <label>Admin Helpdesk</label>
+          <i class="ti ti-headset"></i>
         </li>
         <li class="pc-item">
-          <a href="../dashboard/index.html" class="pc-link"><span class="pc-micon"><i
-                class="ti ti-dashboard"></i></span><span class="pc-mtext">Default</span></a>
+          <a href="{{ route('admin.ticket.index') }}" class="pc-link">
+            <span class="pc-micon"><i class="ti ti-ticket"></i></span>
+            <span class="pc-mtext">Tiket Helpdesk</span>
+          </a>
         </li>
+        <li class="pc-item">
+          <a href="{{ route('admin.staff.index') }}" class="pc-link">
+            <span class="pc-micon"><i class="ti ti-users"></i></span>
+            <span class="pc-mtext">User Staf</span>
+          </a>
+        </li>
+        @endrole
+
         <li class="pc-item pc-caption">
           <label>Other</label>
           <i class="ti ti-brand-chrome"></i>
