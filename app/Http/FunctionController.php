@@ -29,4 +29,4 @@ public function index()
         }else{
             echo'Gagal';
         }
-    }
+    }}
