@@ -6,6 +6,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\TicketController;
 use App\Http\Controllers\StaffUserController;
+use App\Http\Controllers\MultipleuploadsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -41,8 +42,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])
         ->name('dashboard');
 
-    Route::get('/multipleuploads', 'MultipleuploadsController@index')->name('uploads');
-    Route::post('/save','MultipleuploadsController@store')->name('uploads.store');
+   Route::get('/multipleuploads', [MultipleuploadsController::class, 'index'])->name('uploads');
+   Route::post('/save', [MultipleuploadsController::class, 'store'])->name('uploads.store');
 
 
     /*

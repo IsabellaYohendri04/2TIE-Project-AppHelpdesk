@@ -1,5 +1,8 @@
 <?php
 
+use Illuminate\Http\Request;
+use App\Models\Multipleuploads;
+use App\Http\Controllers\Controller;
 class MultipleuploadsController extends Controller
 {
 public function index()

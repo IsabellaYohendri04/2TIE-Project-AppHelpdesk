@@ -7,12 +7,10 @@ use Illuminate\Http\Request;
 
 class MultipleuploadsController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+
     public function index()
     {
-        //
+        return view('profile.multipleuploads');
     }
 
     /**
@@ -28,12 +26,29 @@ class MultipleuploadsController extends Controller
      */
     public function store(Request $request)
     {
-        //
-    }
+        $request->validate([
+            'filename' => 'required',
+            'filename.*' => 'mimes:jpg,jpeg,png,pdf,docx|max:2048'
+        ]);
 
-    /**
-     * Display the specified resource.
-     */
+       
+        if ($request->hasfile('filename')) {
+            foreach ($request->file('filename') as $file) {
+                // Membuat nama unik untuk setiap file
+                $name = time() . rand(1, 100) . '.' . $file->extension();
+
+                // Memindahkan file ke folder public/uploads
+                $file->move(public_path('uploads'), $name);
+
+                // Menyimpan nama file ke database menggunakan Model
+                Multipleuploads::create([
+                    'filename' => $name
+                ]);
+            }
+        }
+
+        return back()->with('success', 'File berhasil diunggah!');
+    }
     public function show(Multipleuploads $multipleuploads)
     {
         //
