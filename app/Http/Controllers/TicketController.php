@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Ticket;
 use App\Models\User;
-use App\Models\Category;
 use Illuminate\Http\Request;
 
 class TicketController extends Controller
@@ -27,7 +27,7 @@ class TicketController extends Controller
     public function create()
     {
         $statusList = Ticket::daftarStatus();
-        $staffList = User::role('staff')->get();
+        $staffList = User::role('staff')->with('categories')->get();
         $categories = Category::orderBy('name')->get();
 
         return view('admin.ticket.create', compact('statusList', 'staffList', 'categories'));
@@ -45,10 +45,25 @@ class TicketController extends Controller
             'category_id' => ['required', 'exists:categories,id'],
             'deskripsi' => ['nullable', 'string'],
             'status' => ['required', 'string'],
-            'assigned_to' => ['nullable', 'exists:users,id'],
+            'assigned_to' => ['nullable', 'exists:users,id', function ($attribute, $value, $fail) use ($request) {
+                if ($value && $request->category_id) {
+                    $staff = User::find($value);
+                    if (! $staff->categories()->where('category_id', $request->category_id)->exists()) {
+                        $fail('Staf yang dipilih tidak memiliki kategori yang sesuai dengan tiket.');
+                    }
+                }
+            }],
         ]);
 
-        Ticket::create($request->all());
+        Ticket::create([
+            'nim' => $request->nim,
+            'nama_mahasiswa' => $request->nama_mahasiswa,
+            'category_id' => $request->category_id,
+            'judul' => $request->judul,
+            'deskripsi' => $request->deskripsi,
+            'status' => $request->status,
+            'assigned_to' => $request->assigned_to,
+        ]);
 
         return redirect()
             ->route('admin.ticket.index')
@@ -61,7 +76,7 @@ class TicketController extends Controller
     public function edit(Ticket $ticket)
     {
         $statusList = Ticket::daftarStatus();
-        $staffList = User::role('staff')->get();
+        $staffList = User::role('staff')->with('categories')->get();
         $categories = Category::orderBy('name')->get();
 
         return view('admin.ticket.edit', compact('ticket', 'statusList', 'staffList', 'categories'));
@@ -79,10 +94,42 @@ class TicketController extends Controller
             'category_id' => ['required', 'exists:categories,id'],
             'deskripsi' => ['nullable', 'string'],
             'status' => ['required', 'string'],
-            'assigned_to' => ['nullable', 'exists:users,id'],
+            'assigned_to' => [
+                'nullable',
+                'exists:users,id',
+                function ($attribute, $value, $fail) use ($request) {
+
+                    if (! $value) {
+                        return;
+                    }
+
+                    $staff = User::with('categories:id')->find($value);
+
+                    if (! $staff) {
+                        $fail('Staf tidak ditemukan.');
+
+                        return;
+                    }
+
+                    // ambil ID kategori staf
+                    $staffCategoryIds = $staff->categories->pluck('id')->toArray();
+
+                    if (! in_array((int) $request->category_id, $staffCategoryIds)) {
+                        $fail('Staf yang dipilih tidak memiliki kategori yang sesuai dengan tiket.');
+                    }
+                },
+            ],
         ]);
 
-        $ticket->update($request->all());
+        $ticket->update([
+            'nim' => $request->nim,
+            'nama_mahasiswa' => $request->nama_mahasiswa,
+            'category_id' => $request->category_id,
+            'judul' => $request->judul,
+            'deskripsi' => $request->deskripsi,
+            'status' => $request->status,
+            'assigned_to' => $request->assigned_to,
+        ]);
 
         return redirect()
             ->route('admin.ticket.index')
@@ -101,5 +148,3 @@ class TicketController extends Controller
             ->with('success', 'Tiket helpdesk berhasil dihapus.');
     }
 }
-
-

@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\User;
+use App\Models\Category;
 
 class Ticket extends Model
 {
@@ -13,7 +14,7 @@ class Ticket extends Model
     protected $fillable = [
         'nim',
         'nama_mahasiswa',
-        'kategori',
+        'category_id',   // ⬅️ GANTI dari 'kategori'
         'judul',
         'deskripsi',
         'status',
@@ -28,22 +29,22 @@ class Ticket extends Model
     public static function daftarStatus(): array
     {
         return [
-            self::STATUS_BARU => 'Baru',
-            self::STATUS_PROSES => 'Sedang Diproses',
+            self::STATUS_BARU    => 'Baru',
+            self::STATUS_PROSES  => 'Sedang Diproses',
             self::STATUS_SELESAI => 'Selesai',
             self::STATUS_DITOLAK => 'Ditolak',
         ];
     }
 
+    // relasi ke staff
     public function staff()
     {
         return $this->belongsTo(User::class, 'assigned_to');
     }
 
+    // relasi ke kategori
     public function category()
     {
-        return $this->belongsTo(Category::class);
+        return $this->belongsTo(Category::class, 'category_id');
     }
 }
-
-
