@@ -25,11 +25,6 @@ class Ticket extends Model
     public const STATUS_SELESAI = 'selesai';
     public const STATUS_DITOLAK = 'ditolak';
 
-    public const KATEGORI_LUPA_SIAK = 'lupa_password_siak';
-    public const KATEGORI_WIFI = 'gangguan_wifi';
-    public const KATEGORI_EMAIL = 'email_kampus';
-    public const KATEGORI_APLIKASI_LAIN = 'aplikasi_akademik_lain';
-
     public static function daftarStatus(): array
     {
         return [
@@ -40,19 +35,14 @@ class Ticket extends Model
         ];
     }
 
-    public static function daftarKategori(): array
-    {
-        return [
-            self::KATEGORI_LUPA_SIAK => 'Lupa Password SIAK',
-            self::KATEGORI_WIFI => 'Gangguan WiFi Kampus',
-            self::KATEGORI_EMAIL => 'Masalah Email Kampus',
-            self::KATEGORI_APLIKASI_LAIN => 'Aplikasi Akademik Lainnya',
-        ];
-    }
-
     public function staff()
     {
         return $this->belongsTo(User::class, 'assigned_to');
+    }
+
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
     }
 }
 

@@ -8,6 +8,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Spatie\Permission\Traits\HasRoles;
 use App\Models\Ticket;
+use App\Models\Category;
 
 class User extends Authenticatable
 {
@@ -54,5 +55,13 @@ class User extends Authenticatable
     public function ticketsHandled()
     {
         return $this->hasMany(Ticket::class, 'assigned_to');
+    }
+
+    /**
+     * Kategori yang dikuasai/dijalankan oleh staf.
+     */
+    public function categories()
+    {
+        return $this->belongsToMany(Category::class, 'category_user');
     }
 }

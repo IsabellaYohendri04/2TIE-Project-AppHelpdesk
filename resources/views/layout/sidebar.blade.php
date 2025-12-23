@@ -36,6 +36,12 @@
             <span class="pc-mtext">User Staf</span>
           </a>
         </li>
+        <li class="pc-item">
+          <a href="{{ route('admin.category.index') }}" class="pc-link">
+            <span class="pc-micon"><i class="ti ti-category"></i></span>
+            <span class="pc-mtext">Kategori</span>
+          </a>
+        </li>
         @endrole
 
         <li class="pc-item pc-caption">

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Category;
 use Illuminate\Http\Request;
 
 class StaffUserController extends Controller
@@ -14,6 +15,7 @@ class StaffUserController extends Controller
     {
         $staffUsers = User::role('staff')
             ->withCount('ticketsHandled')
+            ->with('categories')
             ->orderBy('name')
             ->paginate(10);
 
@@ -25,7 +27,8 @@ class StaffUserController extends Controller
      */
     public function create()
     {
-        return view('admin.staff.create');
+        $categories = Category::orderBy('name')->get();
+        return view('admin.staff.create', compact('categories'));
     }
 
     /**
@@ -37,10 +40,12 @@ class StaffUserController extends Controller
             'name' => ['required', 'string', 'max:191'],
             'email' => ['required', 'string', 'email', 'max:191', 'unique:users,email'],
             'password' => ['required', 'string', 'min:6', 'confirmed'],
+            'category_id' => ['nullable', 'exists:categories,id'],
         ]);
 
         $user = User::create($validated);
         $user->assignRole('staff');
+        $user->categories()->sync($validated['category_id'] ? [$validated['category_id']] : []);
 
         return redirect()
             ->route('admin.staff.index')
@@ -57,7 +62,9 @@ class StaffUserController extends Controller
             abort(404);
         }
 
-        return view('admin.staff.edit', compact('staff'));
+        $categories = Category::orderBy('name')->get();
+
+        return view('admin.staff.edit', compact('staff', 'categories'));
     }
 
     /**
@@ -73,6 +80,7 @@ class StaffUserController extends Controller
             'name' => ['required', 'string', 'max:191'],
             'email' => ['required', 'string', 'email', 'max:191', 'unique:users,email,' . $staff->id],
             'password' => ['nullable', 'string', 'min:6', 'confirmed'],
+            'category_id' => ['nullable', 'exists:categories,id'],
         ]);
 
         $staff->name = $validated['name'];
@@ -83,6 +91,7 @@ class StaffUserController extends Controller
         }
 
         $staff->save();
+        $staff->categories()->sync($validated['category_id'] ? [$validated['category_id']] : []);
 
         return redirect()
             ->route('admin.staff.index')

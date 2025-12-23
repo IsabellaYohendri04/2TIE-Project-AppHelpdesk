@@ -31,6 +31,7 @@
               <th>ID</th>
               <th>Username</th>
               <th>Email</th>
+              <th>Kategori</th>
               <th>Jumlah Jobdesk</th>
               <th class="text-end">Aksi</th>
             </tr>
@@ -41,6 +42,15 @@
                 <td>{{ $staff->id }}</td>
                 <td>{{ $staff->name }}</td>
                 <td>{{ $staff->email }}</td>
+                <td>
+                  @if($staff->categories->count())
+                    @foreach($staff->categories as $cat)
+                      <span class="badge bg-light text-dark">{{ $cat->name }}</span>
+                    @endforeach
+                  @else
+                    <span class="text-muted">-</span>
+                  @endif
+                </td>
                 <td>
                   <span class="badge bg-primary">
                     {{ $staff->tickets_handled_count }} tiket

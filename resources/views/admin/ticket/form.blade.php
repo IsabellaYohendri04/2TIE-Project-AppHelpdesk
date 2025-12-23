@@ -19,12 +19,12 @@
 <div class="row">
   <div class="col-md-6 mb-3">
     <label class="form-label">Kategori</label>
-    <select name="kategori" class="form-select" required>
-      @php $currentKategori = old('kategori', isset($ticket) ? $ticket->kategori : ''); @endphp
-      <option value="" disabled {{ $currentKategori === '' ? 'selected' : '' }}>-- Pilih Kategori --</option>
-      @foreach($kategoriList as $key => $label)
-        <option value="{{ $key }}" {{ $currentKategori === $key ? 'selected' : '' }}>
-          {{ $label }}
+    <select name="category_id" class="form-select" required>
+      @php $currentCategory = old('category_id', isset($ticket) ? $ticket->category_id : ''); @endphp
+      <option value="" disabled {{ $currentCategory === '' ? 'selected' : '' }}>-- Pilih Kategori --</option>
+      @foreach($categories as $category)
+        <option value="{{ $category->id }}" {{ (string)$currentCategory === (string)$category->id ? 'selected' : '' }}>
+          {{ $category->name }}
         </option>
       @endforeach
     </select>

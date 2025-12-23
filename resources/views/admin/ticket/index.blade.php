@@ -50,13 +50,8 @@
                 </td>
                 <td>
                   @php
-                    $kategoriLabel = \App\Models\Ticket::daftarKategori()[$ticket->kategori] ?? $ticket->kategori;
-                    $kategoriBadge = match($ticket->kategori) {
-                      \App\Models\Ticket::KATEGORI_LUPA_SIAK => 'bg-primary',
-                      \App\Models\Ticket::KATEGORI_WIFI => 'bg-warning text-dark',
-                      \App\Models\Ticket::KATEGORI_EMAIL => 'bg-info text-dark',
-                      default => 'bg-secondary',
-                    };
+                    $kategoriLabel = $ticket->category?->name ?? 'Tidak ada kategori';
+                    $kategoriBadge = 'bg-secondary';
                   @endphp
                   <span class="badge {{ $kategoriBadge }}">{{ $kategoriLabel }}</span>
                 </td>
