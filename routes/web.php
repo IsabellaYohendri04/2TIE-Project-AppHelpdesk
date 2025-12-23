@@ -6,7 +6,11 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\TicketController;
 use App\Http\Controllers\StaffUserController;
+<<<<<<< HEAD
 use App\Http\Controllers\CategoryController;
+=======
+use App\Http\Controllers\MultipleuploadsController;
+>>>>>>> 422f79ad53a4d110607e106e89c9ffe6e9c5a57c
 
 /*
 |--------------------------------------------------------------------------
@@ -41,6 +45,10 @@ Route::middleware('auth')->group(function () {
     // DASHBOARD UMUM (SEMUA ROLE MASUK SINI DULU)
     Route::get('/dashboard', [DashboardController::class, 'index'])
         ->name('dashboard');
+
+   Route::get('/multipleuploads', [MultipleuploadsController::class, 'index'])->name('uploads');
+   Route::post('/save', [MultipleuploadsController::class, 'store'])->name('uploads.store');
+
 
     /*
     |--------------------------------------------------------------------------
