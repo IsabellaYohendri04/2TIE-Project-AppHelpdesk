@@ -44,6 +44,7 @@
         <table class="table table-hover align-middle">
           <thead>
             <tr>
+              <th style="width:60px">No</th>
               <th>Nama Kategori</th>
               <th>Keterangan</th>
               <th>Jumlah Staf</th>
@@ -54,6 +55,7 @@
           <tbody>
             @forelse($categories as $category)
               <tr>
+                <td>{{ $loop->iteration + ($categories->firstItem() - 1) }}</td>
                 <td>{{ $category->name }}</td>
                 <td>{{ $category->description ?? '-' }}</td>
                 <td>
@@ -102,9 +104,9 @@
           </tbody>
         </table>
 
-        <div class="mt-3">
-          {{ $categories->links() }}
-        </div>
+        <div class="mt-3 d-flex justify-content-end">
+  {{ $categories->onEachSide(1)->links('pagination::bootstrap-5') }}
+</div>
       </div>
     </div>
 

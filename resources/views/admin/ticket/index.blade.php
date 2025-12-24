@@ -71,7 +71,7 @@
         <table class="table table-hover align-middle">
           <thead>
             <tr>
-              <th>#</th>
+              <th>No</th>
               <th>Mahasiswa</th>
               <th>Kategori</th>
               <th>Judul</th>
@@ -144,9 +144,10 @@
           </tbody>
         </table>
 
-        <div class="mt-3">
-          {{ $tickets->links() }}
-        </div>
+           <div class="mt-3 d-flex justify-content-end">
+  {{ $tickets->onEachSide(1)->links('pagination::bootstrap-5') }}
+</div>
+      </div>
       </div>
     </div>
 

@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('nim')->nullable();
             $table->string('nama_mahasiswa')->nullable();
             $table->string('judul');
-            $table->string('kategori');
+            $table->string('category_id');
             $table->text('deskripsi')->nullable();
             $table->string('status')->default('baru');
             $table->foreignId('assigned_to')->nullable()->constrained('users')->nullOnDelete();

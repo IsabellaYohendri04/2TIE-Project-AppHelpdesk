@@ -19,27 +19,31 @@
     @if(session('success'))
       <div class="alert alert-success alert-dismissible fade show" role="alert">
         <i class="ti ti-check me-1"></i> {{ session('success') }}
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
       </div>
     @endif
 
-    <!-- Search and Filter Form -->
+    <!-- Search & Filter -->
     <form method="GET" action="{{ route('admin.staff.index') }}" class="row g-3 mb-3">
       <div class="col-md-6">
-        <label for="search" class="form-label">Cari Username</label>
-        <input type="text" class="form-control" id="search" name="search" value="{{ old('search', request('search')) }}" placeholder="Masukkan username">
+        <label class="form-label">Cari Username</label>
+        <input type="text" name="search" class="form-control"
+               value="{{ request('search') }}" placeholder="Masukkan username">
       </div>
       <div class="col-md-4">
-        <label for="category_id" class="form-label">Filter Kategori</label>
-        <select class="form-select" id="category_id" name="category_id">
+        <label class="form-label">Filter Kategori</label>
+        <select name="category_id" class="form-select">
           <option value="">Semua Kategori</option>
           @foreach($categories as $category)
-            <option value="{{ $category->id }}" {{ old('category_id', request('category_id')) == $category->id ? 'selected' : '' }}>{{ $category->name }}</option>
+            <option value="{{ $category->id }}"
+              {{ request('category_id') == $category->id ? 'selected' : '' }}>
+              {{ $category->name }}
+            </option>
           @endforeach
         </select>
       </div>
       <div class="col-md-2 d-flex align-items-end">
-        <button type="submit" class="btn btn-primary me-2">
+        <button class="btn btn-primary me-2">
           <i class="ti ti-search me-1"></i> Cari
         </button>
         <a href="{{ route('admin.staff.index') }}" class="btn btn-secondary">
@@ -53,7 +57,8 @@
         <table class="table table-hover align-middle">
           <thead>
             <tr>
-              <th>ID</th>
+              <th style="width:60px">No</th>
+              
               <th>Username</th>
               <th>Email</th>
               <th>Kategori</th>
@@ -64,17 +69,18 @@
           <tbody>
             @forelse($staffUsers as $staff)
               <tr>
-                <td>{{ $staff->id }}</td>
+                <!-- NOMOR OTOMATIS LANJUT PER HALAMAN -->
+                <td class="fw-semibold">
+                  {{ $staffUsers->firstItem() + $loop->index }}
+                </td>
                 <td>{{ $staff->name }}</td>
                 <td>{{ $staff->email }}</td>
                 <td>
-                  @if($staff->categories->count())
-                    @foreach($staff->categories as $cat)
-                      <span class="badge bg-light text-dark">{{ $cat->name }}</span>
-                    @endforeach
-                  @else
+                  @forelse($staff->categories as $cat)
+                    <span class="badge bg-light text-dark">{{ $cat->name }}</span>
+                  @empty
                     <span class="text-muted">-</span>
-                  @endif
+                  @endforelse
                 </td>
                 <td>
                   <span class="badge bg-primary">
@@ -83,20 +89,21 @@
                 </td>
                 <td class="text-end">
                   <div class="btn-group">
-                    <a href="{{ route('admin.staff.edit', $staff) }}" class="btn btn-sm btn-outline-primary">
+                    <a href="{{ route('admin.staff.edit', $staff) }}"
+                       class="btn btn-sm btn-outline-primary">
                       <i class="ti ti-edit"></i>
                     </a>
-                    <button
-                      type="button"
-                      class="btn btn-sm btn-outline-danger btn-delete-staff"
-                      data-bs-toggle="modal"
-                      data-bs-target="#deleteStaffModal"
-                      data-staff-id="{{ $staff->id }}"
-                      data-staff-name="{{ $staff->name }}"
-                    >
+                    <button type="button"
+                            class="btn btn-sm btn-outline-danger btn-delete-staff"
+                            data-bs-toggle="modal"
+                            data-bs-target="#deleteStaffModal"
+                            data-staff-id="{{ $staff->id }}"
+                            data-staff-name="{{ $staff->name }}">
                       <i class="ti ti-trash"></i>
                     </button>
-                    <form id="delete-staff-form-{{ $staff->id }}" action="{{ route('admin.staff.destroy', $staff) }}" method="POST" class="d-none">
+                    <form id="delete-staff-form-{{ $staff->id }}"
+                          action="{{ route('admin.staff.destroy', $staff) }}"
+                          method="POST" class="d-none">
                       @csrf
                       @method('DELETE')
                     </form>
@@ -105,90 +112,61 @@
               </tr>
             @empty
               <tr>
-                <td colspan="5" class="text-center text-muted">Belum ada user staf.</td>
+                <td colspan="7" class="text-center text-muted">
+                  Belum ada user staf.
+                </td>
               </tr>
             @endforelse
           </tbody>
         </table>
 
-        <div class="mt-3">
-          {{ $staffUsers->links() }}
+        <!-- PAGINATION KANAN BAWAH -->
+        <div class="mt-3 d-flex justify-content-end">
+          {{ $staffUsers->onEachSide(1)->links('pagination::bootstrap-5') }}
         </div>
+
       </div>
     </div>
 
   </div>
 </div>
 
-<!-- Modal Konfirmasi Hapus User Staf -->
-<div class="modal fade" id="deleteStaffModal" tabindex="-1" aria-hidden="true">
+<!-- Modal Hapus -->
+<div class="modal fade" id="deleteStaffModal" tabindex="-1">
   <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content border-0 shadow-lg">
-
+    <div class="modal-content">
       <div class="modal-header bg-danger text-white">
-        <h5 class="modal-title">
-          <i class="ti ti-alert-triangle me-1"></i> Konfirmasi Hapus User Staf
-        </h5>
-        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+        <h5 class="modal-title">Konfirmasi Hapus</h5>
+        <button type="button" class="btn-close btn-close-white"
+                data-bs-dismiss="modal"></button>
       </div>
-
-      <div class="modal-body text-center py-4">
-        <i class="ti ti-trash fs-1 text-danger mb-3"></i>
-        <h5>Apakah Anda yakin ingin menghapus user staf ini?</h5>
-        <p class="text-muted">
-          User: <span id="delete-staff-name" class="fw-semibold"></span><br>
-          Tindakan ini tidak dapat dibatalkan.
-        </p>
+      <div class="modal-body text-center">
+        <p>Yakin ingin menghapus user <strong id="delete-staff-name"></strong>?</p>
       </div>
-
       <div class="modal-footer justify-content-center">
-        <button type="button" class="btn btn-secondary px-4" data-bs-dismiss="modal">
-          Batal
-        </button>
-        <button type="button" class="btn btn-danger px-4" id="delete-staff-confirm-btn">
-          Ya, Hapus
-        </button>
+        <button class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+        <button class="btn btn-danger" id="delete-staff-confirm-btn">Hapus</button>
       </div>
-
     </div>
   </div>
 </div>
 
 @push('js')
 <script>
-  document.addEventListener('DOMContentLoaded', function () {
-    const loader = document.querySelector('.loader-bg');
-    if (loader) {
-      loader.style.display = 'none';
-    }
-
-    let staffIdToDelete = null;
-    const nameSpan = document.getElementById('delete-staff-name');
-    const confirmBtn = document.getElementById('delete-staff-confirm-btn');
-
-    document.querySelectorAll('.btn-delete-staff').forEach(function (btn) {
-      btn.addEventListener('click', function () {
-        staffIdToDelete = this.getAttribute('data-staff-id');
-        const name = this.getAttribute('data-staff-name');
-        if (nameSpan) {
-          nameSpan.textContent = name;
-        }
-      });
-    });
-
-    if (confirmBtn) {
-      confirmBtn.addEventListener('click', function () {
-        if (!staffIdToDelete) return;
-        const form = document.getElementById('delete-staff-form-' + staffIdToDelete);
-        if (form) {
-          form.submit();
-        }
-      });
-    }
+document.addEventListener('DOMContentLoaded', () => {
+  let staffId = null;
+  document.querySelectorAll('.btn-delete-staff').forEach(btn => {
+    btn.onclick = () => {
+      staffId = btn.dataset.staffId;
+      document.getElementById('delete-staff-name').textContent =
+        btn.dataset.staffName;
+    };
   });
+  document.getElementById('delete-staff-confirm-btn').onclick = () => {
+    if (staffId) document.getElementById('delete-staff-form-' + staffId).submit();
+  };
+});
 </script>
 @endpush
 
 @endsection
-
-

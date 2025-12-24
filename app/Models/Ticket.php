@@ -14,7 +14,7 @@ class Ticket extends Model
     protected $fillable = [
         'nim',
         'nama_mahasiswa',
-        'category_id',   // ⬅️ GANTI dari 'kategori'
+        'category_id',   
         'judul',
         'deskripsi',
         'status',
