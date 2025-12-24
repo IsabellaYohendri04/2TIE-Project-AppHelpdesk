@@ -12,12 +12,52 @@ class TicketController extends Controller
     /**
      * Tampilkan daftar tiket helpdesk (Admin).
      */
-    public function index()
+    public function index(Request $request)
     {
-        $tickets = Ticket::with(['staff', 'category'])->latest()->paginate(10);
+        $query = Ticket::with(['staff', 'category']);
+
+        // Apply search keyword filter
+        if ($request->filled('search')) {
+            $search = $request->search;
+            $query->where(function ($q) use ($search) {
+                $q->where('nama_mahasiswa', 'LIKE', '%' . $search . '%')
+                  ->orWhere('judul', 'LIKE', '%' . $search . '%')
+                  ->orWhereHas('category', function ($subQ) use ($search) {
+                      $subQ->where('name', 'LIKE', '%' . $search . '%');
+                  })
+                  ->orWhere('status', 'LIKE', '%' . $search . '%')
+                  ->orWhereHas('staff', function ($subQ) use ($search) {
+                      $subQ->where('name', 'LIKE', '%' . $search . '%');
+                  });
+            });
+        }
+
+        // Apply category filter
+        if ($request->filled('category_id')) {
+            $query->where('category_id', $request->category_id);
+        }
+
+        // Apply status filter
+        if ($request->filled('status')) {
+            $query->where('status', $request->status);
+        }
+
+        // Apply staff filter
+        if ($request->filled('assigned_to')) {
+            $query->where('assigned_to', $request->assigned_to);
+        }
+
+        $tickets = $query->latest()->paginate(10)->appends($request->query());
+
+        $statusList = Ticket::daftarStatus();
+        $staffList = User::role('staff')->with('categories')->get();
+        $categories = Category::orderBy('name')->get();
 
         return view('admin.ticket.index', [
             'tickets' => $tickets,
+            'statusList' => $statusList,
+            'staffList' => $staffList,
+            'categories' => $categories,
         ]);
     }
 

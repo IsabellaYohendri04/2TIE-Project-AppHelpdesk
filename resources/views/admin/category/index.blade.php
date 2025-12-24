@@ -23,6 +23,22 @@
       </div>
     @endif
 
+    <!-- Search Form -->
+    <form method="GET" action="{{ route('admin.category.index') }}" class="row g-3 mb-3">
+      <div class="col-md-6">
+        <label for="search" class="form-label">Cari Kategori</label>
+        <input type="text" class="form-control" id="search" name="search" value="{{ old('search', request('search')) }}" placeholder="Masukkan nama kategori atau jumlah (staf/tiket)">
+      </div>
+      <div class="col-md-6 d-flex align-items-end">
+        <button type="submit" class="btn btn-primary me-2">
+          <i class="ti ti-search me-1"></i> Cari
+        </button>
+        <a href="{{ route('admin.category.index') }}" class="btn btn-secondary">
+          <i class="ti ti-refresh me-1"></i> Reset
+        </a>
+      </div>
+    </form>
+
     <div class="card">
       <div class="card-body table-responsive">
         <table class="table table-hover align-middle">

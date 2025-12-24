@@ -11,15 +11,30 @@ class StaffUserController extends Controller
     /**
      * Tampilkan daftar user dengan role staf.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $staffUsers = User::role('staff')
+        $query = User::role('staff')
             ->withCount('ticketsHandled')
-            ->with('categories')
-            ->orderBy('name')
-            ->paginate(10);
+            ->with('categories');
 
-        return view('admin.staff.index', compact('staffUsers'));
+        // Apply search keyword filter on name (username)
+        if ($request->filled('search')) {
+            $search = $request->search;
+            $query->where('name', 'LIKE', '%' . $search . '%');
+        }
+
+        // Apply category filter
+        if ($request->filled('category_id')) {
+            $query->whereHas('categories', function ($q) use ($request) {
+                $q->where('categories.id', $request->category_id);
+            });
+        }
+
+        $staffUsers = $query->orderBy('name')->paginate(10)->appends($request->query());
+
+        $categories = Category::orderBy('name')->get();
+
+        return view('admin.staff.index', compact('staffUsers', 'categories'));
     }
 
     /**

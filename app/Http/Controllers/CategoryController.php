@@ -8,11 +8,29 @@ use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $categories = Category::withCount(['users', 'tickets'])
-            ->orderBy('name')
-            ->paginate(10);
+        $query = Category::withCount(['users', 'tickets']);
+
+        // Apply search filter
+        if ($request->filled('search')) {
+            $search = $request->search;
+            if (is_numeric($search)) {
+                // If search is numeric, filter by exact count matches
+                $query->where(function ($q) use ($search) {
+                    $q->where('users_count', $search)
+                      ->orWhere('tickets_count', $search);
+                });
+            } else {
+                // If search is text, filter by category name
+                $query->where('name', 'LIKE', '%' . $search . '%');
+            }
+        }
+
+        $categories = $query->orderBy('name')
+            ->paginate(10)
+            ->appends($request->query());
+
         return view('admin.category.index', compact('categories'));
     }
 

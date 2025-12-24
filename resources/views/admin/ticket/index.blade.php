@@ -23,6 +23,49 @@
       </div>
     @endif
 
+    <!-- Search and Filter Form -->
+    <form method="GET" action="{{ route('admin.ticket.index') }}" class="row g-3 mb-3">
+      <div class="col-md-3">
+        <label for="search" class="form-label">Cari Kata Kunci</label>
+        <input type="text" class="form-control" id="search" name="search" value="{{ old('search', request('search')) }}" placeholder="Nama Mahasiswa, Judul, dll.">
+      </div>
+      <div class="col-md-2">
+        <label for="category_id" class="form-label">Kategori</label>
+        <select class="form-select" id="category_id" name="category_id">
+          <option value="">Semua Kategori</option>
+          @foreach($categories as $category)
+            <option value="{{ $category->id }}" {{ old('category_id', request('category_id')) == $category->id ? 'selected' : '' }}>{{ $category->name }}</option>
+          @endforeach
+        </select>
+      </div>
+      <div class="col-md-2">
+        <label for="status" class="form-label">Status</label>
+        <select class="form-select" id="status" name="status">
+          <option value="">Semua Status</option>
+          @foreach($statusList as $key => $label)
+            <option value="{{ $key }}" {{ old('status', request('status')) == $key ? 'selected' : '' }}>{{ $label }}</option>
+          @endforeach
+        </select>
+      </div>
+      <div class="col-md-2">
+        <label for="assigned_to" class="form-label">Staf Helpdesk</label>
+        <select class="form-select" id="assigned_to" name="assigned_to">
+          <option value="">Semua Staf</option>
+          @foreach($staffList as $staff)
+            <option value="{{ $staff->id }}" {{ old('assigned_to', request('assigned_to')) == $staff->id ? 'selected' : '' }}>{{ $staff->name }}</option>
+          @endforeach
+        </select>
+      </div>
+      <div class="col-md-3 d-flex align-items-end">
+        <button type="submit" class="btn btn-primary me-2">
+          <i class="ti ti-search me-1"></i> Cari
+        </button>
+        <a href="{{ route('admin.ticket.index') }}" class="btn btn-secondary">
+          <i class="ti ti-refresh me-1"></i> Reset
+        </a>
+      </div>
+    </form>
+
     <div class="card">
       <div class="card-body table-responsive">
         <table class="table table-hover align-middle">
