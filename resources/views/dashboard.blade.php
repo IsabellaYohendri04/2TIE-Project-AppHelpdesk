@@ -129,7 +129,7 @@
       <div class="col-xl-8 col-md-12">
         <div class="card">
           <div class="card-body">
-            <div class="row mb-3 align-items-center">
+            <div class="row mb-4 align-items-center">
               <div class="col">
                 <small class="text-muted">Total Growth</small>
                 <h3>{{ $totalTickets }}</h3>
@@ -142,7 +142,7 @@
 
       {{-- TIKET TERBARU --}}
       <div class="col-xl-4 col-md-12">
-        <div class="card h-100">
+        <div class="card h-auto">
           <div class="card-body d-flex flex-column">
 
             <div class="row mb-3 align-items-center">
@@ -158,7 +158,7 @@
               </div>
             </div>
 
-            <div class="flex-grow-1 overflow-auto" style="max-height:380px">
+            <div class="flex-grow-1 overflow-auto" style="max-height:517px">
               <ul class="list-group list-group-flush">
                 @forelse ($latestTickets as $ticket)
                   <li class="list-group-item px-0">
