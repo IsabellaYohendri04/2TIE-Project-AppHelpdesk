@@ -1,0 +1,313 @@
+/* =================================================
+   LAPOR – CLEAN FINAL VERSION (FIXED)
+   ================================================= */
+
+body {
+    margin: 0;
+    font-family: "Segoe UI", Roboto, Arial, sans-serif;
+    font-size: 14px;
+    background: #ffffff;
+    color: #212529;
+}
+
+/* ======================
+   NAVBAR
+   ====================== */
+.lapor-navbar {
+    background: #1400c4;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 999;
+    transition: transform .35s ease;
+}
+
+.lapor-nav-inner {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+
+    /* isi navbar tetap center */
+    align-items: center;
+
+    padding: 0 24px;
+}
+
+/* kiri */
+.lapor-left {
+    display: flex;
+    align-items: center;
+    gap: 28px;
+}
+
+.lapor-logo {
+    color: #fff;
+    font-size: 22px;
+    font-weight: 800;
+    letter-spacing: .8px;
+}
+
+.lapor-left-menu {
+    display: flex;
+    gap: 28px;
+}
+
+/* kanan */
+.lapor-right {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+}
+
+/* link */
+.lapor-nav-link {
+    color: #fff;
+    font-size: 15px;
+    font-weight: 500;
+    text-decoration: none;
+    opacity: .9;
+}
+
+.lapor-nav-link:hover {
+    opacity: 1;
+    text-decoration: underline;
+}
+
+/* language */
+.lapor-lang {
+    color: #fff;
+    font-size: 18px;
+    opacity: .9;
+    text-decoration: none;
+}
+
+.lapor-lang:hover {
+    opacity: 1;
+}
+.lapor-btn-daftar {
+    border: 1px solid #ffffff;
+    color: #ffffff;
+    font-size: 14px;
+    padding: 7px 18px;
+    border-radius: 4px;
+    text-decoration: none;
+
+    position: relative;
+    top: 3px;  
+}
+
+.lapor-btn-daftar:hover {
+    background: #fff;
+    color: #4100c4;
+}
+
+/* navbar hide/show */
+.lapor-navbar.nav-hide { transform: translateY(-100%); }
+.lapor-navbar.nav-show { transform: translateY(0); }
+
+/* ======================
+   HERO
+   ====================== */
+.lapor-hero {
+    background: linear-gradient(135deg, #0021c4, #1000a3);
+    padding: 120px 0 240px;
+    position: relative;
+    overflow: hidden;
+    transition: all .45s ease;
+}
+
+.lapor-hero h1 {
+    font-size: 38px;
+    font-weight: 800;
+    line-height: 1.25;
+
+    position: relative;
+    top: -30px;   /* ⬆️ naikkan (coba -5 s/d -15) */
+}
+
+.lapor-hero p {
+    font-size: 17px;
+    margin-top: 12px;
+    opacity: .95;
+
+    position: relative;
+    top: -10px;   /* ⬆️ ikut naik */
+}
+
+
+.divider {
+    width: 70px;
+    height: 4px;
+    background: #fff;
+    margin: 22px auto 0;
+}
+
+/* lengkung putih */
+.lapor-hero::after {
+    content: "";
+    position: absolute;
+    bottom: -80px;
+    left: -8%;
+    width: 116%;
+    height: 220px;
+    background: #fff;
+    border-top-left-radius: 100% 160px;
+    border-top-right-radius: 100% 160px;
+    transition: all .45s ease;
+}
+
+/* shrink saat scroll */
+.lapor-hero.shrink {
+    padding: 70px 0 120px;
+    opacity: .85;
+}
+
+.lapor-hero.shrink::after {
+    height: 90px;
+}
+
+/* ======================
+   FORM
+   ====================== */
+.lapor-form {
+    margin-top: -180px;
+    max-width: 640px;
+}
+
+.lapor-form .card {
+    border-radius: 8px;
+    background: #fff;
+    box-shadow: 0 4px 14px rgba(0,0,0,.06);
+}
+
+.lapor-header {
+    background: #1000c4;
+    color: #fff;
+    font-size: 18px;
+    font-weight: 700;
+    padding: 18px 24px;
+}
+
+.lapor-form .card-body {
+    padding: 32px 34px;
+}
+
+
+.lapor-form textarea {
+    font-size: 15px;
+    padding: 11px 12px;
+    border-radius: 4px;
+}
+
+.lapor-form ::placeholder {
+    color: #9aa0a6;
+    font-size: 14px;
+}
+
+.lapor-form .btn-danger {
+    background: #0a00c4;
+    border: none;
+    border-radius: 4px;
+    padding: 10px 32px;
+}
+
+.lapor-form .btn-danger:hover {
+    background: #a30018;
+}
+
+/* ======================
+   STEPS
+   ====================== */
+.lapor-steps {
+    max-width: 900px;
+    margin: 70px auto;
+}
+
+.step {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background: #e9ecef;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    margin: 0 auto;
+}
+
+.step.active {
+    background: #c4001d;
+    color: #fff;
+}
+
+.lapor-steps h6 {
+    margin-top: 12px;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.lapor-steps p {
+    font-size: 12px;
+    color: #6c757d;
+}
+
+.lapor-bg {
+    background: #ffffff !important;
+}
+
+body {
+    font-family: "Poppins", Arial, sans-serif;
+}
+
+.hero-cta {
+    position: relative;
+    margin-top: 36px;
+    text-align: center;
+    z-index: 2; /* di atas lengkungan */
+}
+
+.btn-hero {
+    display: inline-block;
+    background: #ffffff;
+    color: #1400c4;
+    font-size: 15px;
+    font-weight: 600;
+    padding: 12px 34px;
+    border-radius: 24px;
+    text-decoration: none;
+    transition: all .25s ease;
+}
+
+.btn-hero:hover {
+    background: #f1f1f1;
+    transform: translateY(-2px);
+}
+
+/* ===== HERO CTA FLOATING ===== */
+.btn-float {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    animation: float 2.5s ease-in-out infinite;
+}
+
+/* ikon panah */
+.btn-float .arrow {
+    font-size: 18px;
+    animation: arrow-bounce 1.6s infinite;
+}
+
+/* animasi naik turun lembut */
+@keyframes float {
+    0%   { transform: translateY(0); }
+    50%  { transform: translateY(-6px); }
+    100% { transform: translateY(0); }
+}
+
+/* animasi panah */
+@keyframes arrow-bounce {
+    0%, 100% { transform: translateY(0); }
+    50%      { transform: translateY(6px); }
+}

@@ -3,17 +3,15 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\UserController;
 use App\Http\Controllers\TicketController;
 use App\Http\Controllers\StaffUserController;
 use App\Http\Controllers\CategoryController;
-
+use App\Http\Controllers\LaporController;
 use App\Http\Controllers\MultipleuploadsController;
-
 
 /*
 |--------------------------------------------------------------------------
-| GUEST (BELUM LOGIN)/tidak login
+| GUEST
 |--------------------------------------------------------------------------
 */
 Route::middleware('guest')->group(function () {
@@ -32,22 +30,31 @@ Route::middleware('guest')->group(function () {
 
 /*
 |--------------------------------------------------------------------------
-| AUTH (SUDAH LOGIN)
+| AUTH (SEMUA USER LOGIN)
 |--------------------------------------------------------------------------
 */
 Route::middleware('auth')->group(function () {
 
-    // LOGOUT (POST)
     Route::post('/logout', [AuthController::class, 'logout'])
         ->name('logout');
 
-    // DASHBOARD UMUM (SEMUA ROLE MASUK SINI DULU)
     Route::get('/dashboard', [DashboardController::class, 'index'])
         ->name('dashboard');
 
-   Route::get('/multipleuploads', [MultipleuploadsController::class, 'index'])->name('uploads');
-   Route::post('/save', [MultipleuploadsController::class, 'store'])->name('uploads.store');
+    Route::get('/multipleuploads', [MultipleuploadsController::class, 'index'])
+        ->name('uploads');
 
+    Route::post('/save', [MultipleuploadsController::class, 'store'])
+        ->name('uploads.store');
+
+    /* ===============================
+       LAPOR (USER)
+       =============================== */
+    Route::get('/lapor', [LaporController::class, 'index'])
+        ->name('lapor.index');
+
+    Route::post('/lapor', [LaporController::class, 'store'])
+        ->name('lapor.store');
 
     /*
     |--------------------------------------------------------------------------
@@ -63,16 +70,15 @@ Route::middleware('auth')->group(function () {
                 return view('dashboard');
             })->name('dashboard');
 
-            // CRUD Tiket Helpdesk IT (khusus Admin)
             Route::resource('ticket', TicketController::class);
-
-            // Manajemen User Staf Helpdesk (khusus Admin)
             Route::resource('staff', StaffUserController::class)
                 ->parameters(['staff' => 'staff']);
 
-            // Manajemen Kategori (khusus Admin)
-            Route::get('category/{category}/staffs', [CategoryController::class, 'staffs'])->name('category.staffs');
+            Route::get('category/{category}/staffs', [CategoryController::class, 'staffs'])
+                ->name('category.staffs');
+
             Route::resource('category', CategoryController::class);
+
         });
 
 });
