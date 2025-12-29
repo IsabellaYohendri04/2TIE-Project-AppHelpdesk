@@ -1,13 +1,20 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\TicketController;
-use App\Http\Controllers\StaffUserController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LaporController;
 use App\Http\Controllers\MultipleuploadsController;
+use App\Http\Controllers\StaffUserController;
+use App\Http\Controllers\TicketController;
+use Illuminate\Support\Facades\Route;
+
+// Login
+Route::get('/login', function () {
+    return view('auth.login');
+})->name('login');
+Route::post('/login', [AuthController::class, 'login'])
+    ->name('login.process');
 
 /*
 |--------------------------------------------------------------------------
@@ -15,9 +22,7 @@ use App\Http\Controllers\MultipleuploadsController;
 |--------------------------------------------------------------------------
 */
 Route::middleware('guest')->group(function () {
- /* ===============================
-       LAPOR (USER)
-       =============================== */
+   
     Route::get('/', [LaporController::class, 'index'])
         ->name('lapor.index');
 
@@ -45,7 +50,6 @@ Route::middleware('auth')->group(function () {
     Route::post('/save', [MultipleuploadsController::class, 'store'])
         ->name('uploads.store');
 
-   
     /*
     |--------------------------------------------------------------------------
     | ADMIN ONLY
