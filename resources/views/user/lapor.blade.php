@@ -61,7 +61,7 @@
 
                         <div class="text-end">
                             <button class="btn btn-danger fw-bold px-4">
-                                LAPOR!
+                                Submit!
                             </button>
                         </div>
                     </form>

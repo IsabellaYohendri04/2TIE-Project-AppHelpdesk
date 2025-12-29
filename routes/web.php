@@ -15,17 +15,15 @@ use App\Http\Controllers\MultipleuploadsController;
 |--------------------------------------------------------------------------
 */
 Route::middleware('guest')->group(function () {
+ /* ===============================
+       LAPOR (USER)
+       =============================== */
+    Route::get('/', [LaporController::class, 'index'])
+        ->name('lapor.index');
 
-    Route::get('/', function () {
-        return view('welcome');
-    })->name('welcome');
+    Route::post('/', [LaporController::class, 'store'])
+        ->name('lapor.store');
 
-    Route::get('/login', function () {
-        return view('auth.login');
-    })->name('login');
-
-    Route::post('/login', [AuthController::class, 'login'])
-        ->name('login.process');
 });
 
 /*
@@ -47,15 +45,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/save', [MultipleuploadsController::class, 'store'])
         ->name('uploads.store');
 
-    /* ===============================
-       LAPOR (USER)
-       =============================== */
-    Route::get('/lapor', [LaporController::class, 'index'])
-        ->name('lapor.index');
-
-    Route::post('/lapor', [LaporController::class, 'store'])
-        ->name('lapor.store');
-
+   
     /*
     |--------------------------------------------------------------------------
     | ADMIN ONLY
