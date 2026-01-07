@@ -14,7 +14,7 @@ class CreateStaffDummy extends Seeder
         $faker = Faker::create();
         $categoryIds = Category::pluck('id');
 
-        foreach (range(1, 100) as $i) {
+        foreach (range(1, 50) as $i) {
 
             // 1. Buat USER
             $staff = User::create([

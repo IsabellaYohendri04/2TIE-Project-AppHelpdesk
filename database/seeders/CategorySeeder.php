@@ -14,6 +14,8 @@ class CategorySeeder extends Seeder
             ['name'=>'Network','description'=>'Jaringan'],
             ['name'=>'Hardware','description'=>'Perangkat'],
             ['name'=>'Software','description'=>'Aplikasi'],
+            ['name'=>'Janitor','description'=>'Bersih'],
+            ['name'=>'BAAK','description'=>'Akademik'],
         ]);
     }
 }
