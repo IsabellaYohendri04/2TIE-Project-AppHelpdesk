@@ -109,3 +109,9 @@ Route::middleware('auth')->group(function () {
         });
 
 });
+
+
+Route::post('/logout-to-lapor', function () {
+    session(['redirect_after_logout' => route('lapor.index')]);
+    return redirect()->route('logout');
+})->name('logout.to.lapor');

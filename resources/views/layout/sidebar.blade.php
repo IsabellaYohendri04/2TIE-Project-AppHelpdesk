@@ -83,10 +83,10 @@
       </ul>
       <div class="pc-navbar-card bg-primary rounded">
         <h4 class="text-white">Lapor</h4>
-        <p class="text-white opacity-75">Penasaran dengan lapor mahasiswa ? klik button di bawah!</p>
-        <a href="{{ route('logout') }}" target="_blank"
+        <p class="text-white opacity-75">Penasaran dengan codingan kami ? klik button di bawah!</p>
+        <a href="https://github.com/IsabellaYohendri04/2TIE-Project-AppHelpdesk.git" target="_blank"
           class="btn btn-light text-primary">
-          Beranda Lapor
+          Github
         </a>
       </div>
       <div class="w-100 text-center">

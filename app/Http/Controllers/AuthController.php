@@ -44,5 +44,10 @@ class AuthController extends Controller
         $request->session()->regenerateToken();
 
         return redirect()->route('login');
+        if (session()->has('redirect_after_logout')) {
+    $url = session()->pull('redirect_after_logout');
+    return redirect($url);
+}
+
     }
 }
