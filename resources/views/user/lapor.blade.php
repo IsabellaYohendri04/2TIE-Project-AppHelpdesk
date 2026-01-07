@@ -166,16 +166,12 @@
                                     @endforeach
                                 </select>
                             </div>
-                            <div class="col-6 col-md-2 d-grid">
+                            <div class="col-6 col-md-3 d-grid">
                                 <button type="button" id="resetFilter" class="btn btn-outline-secondary w-100">
                                     <i class="ti ti-refresh me-1"></i>Reset
                                 </button>
                             </div>
-                            <div class="col-6 col-md-1 d-grid">
-                                <button type="button" id="searchButton" class="btn btn-primary w-100">
-                                    <i class="ti ti-search"></i>
-                                </button>
-                            </div>
+                            
                         </div>
 
                         <!-- INFO HASIL FILTER -->
