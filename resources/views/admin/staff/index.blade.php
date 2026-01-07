@@ -77,7 +77,7 @@
                 <td>{{ $staff->email }}</td>
                 <td>
                   @forelse($staff->categories as $cat)
-                    <span class="badge bg-light text-dark">{{ $cat->name }}</span>
+                    <span class="badge bg-info text-dark">{{ $cat->name }}</span>
                   @empty
                     <span class="text-muted">-</span>
                   @endforelse
