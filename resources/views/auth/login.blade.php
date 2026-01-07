@@ -69,6 +69,10 @@
               </div>
             </form>
 
+            <div class="mt-3 text-center">
+              <a href="{{ route('lapor.index') }}" class="btn btn-link">Masuk untuk Lapor</a>
+            </div>
+
           </div>
         </div>
       </div>

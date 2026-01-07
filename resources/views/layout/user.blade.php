@@ -5,7 +5,9 @@
     <title>@yield('title','LAPOR')</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('assets/fonts/tabler-icons.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/lapor.css') }}">
+    @stack('styles')
 </head>
 <body>
 
@@ -20,16 +22,15 @@
             <div class="lapor-logo">LAPOR!</div>
 
             <div class="lapor-left-menu">
-                <a href="#" class="lapor-nav-link">Tentang Lapor</a>
-                <a href="#" class="lapor-nav-link">Statistik</a>
+                <a href="#" class="lapor-nav-link">Form</a>
+                <a href="#history-section" class="lapor-nav-link">History</a>
             </div>
         </div>
 
         <!-- KANAN -->
         <div class="lapor-right">
             <a href="#" class="lapor-lang">🌐</a>
-            <a href="#" class="lapor-nav-link">Masuk</a>
-            <a href="#" class="lapor-btn-daftar">Daftar</a>
+            <a href="{{ route('login') }}" class="lapor-nav-link">Masuk</a>
         </div>
 
     </div>
@@ -85,6 +86,8 @@ window.addEventListener('scroll', () => {
     lastScroll = currentScroll;
 });
 </script>
+
+@stack('scripts')
 
 </body>
 </html>

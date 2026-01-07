@@ -44,6 +44,25 @@
         </li>
         @endrole
 
+        @role('staff')
+        <li class="pc-item pc-caption">
+          <label>Staff Helpdesk</label>
+          <i class="ti ti-headset"></i>
+        </li>
+        <li class="pc-item">
+          <a href="{{ route('staff.ticket.index') }}" class="pc-link">
+            <span class="pc-micon"><i class="ti ti-ticket"></i></span>
+            <span class="pc-mtext">Tiket Keseluruhan</span>
+          </a>
+        </li>
+        <li class="pc-item">
+          <a href="{{ route('staff.ticket.assigned') }}" class="pc-link">
+            <span class="pc-micon"><i class="ti ti-list-check"></i></span>
+            <span class="pc-mtext">Tiket Ditugaskan</span>
+          </a>
+        </li>
+        @endrole
+
         <li class="pc-item pc-caption">
           <label>Other</label>
           <i class="ti ti-brand-chrome"></i>

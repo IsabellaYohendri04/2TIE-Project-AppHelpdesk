@@ -187,4 +187,237 @@ class TicketController extends Controller
             ->route('admin.ticket.index')
             ->with('success', 'Tiket helpdesk berhasil dihapus.');
     }
+
+    /**
+     * Tampilkan daftar tiket untuk staff (hanya kategori yang sesuai).
+     */
+    public function staffIndex(Request $request)
+    {
+        $user = auth()->user();
+        $staffCategoryIds = $user->categories->pluck('id')->toArray();
+
+        $query = Ticket::with(['staff', 'category']);
+
+        // Search filter
+        if ($request->filled('search')) {
+            $search = $request->search;
+            $query->where(function ($q) use ($search) {
+                $q->where('nama_mahasiswa', 'LIKE', '%' . $search . '%')
+                  ->orWhere('judul', 'LIKE', '%' . $search . '%')
+                  ->orWhereHas('category', function ($subQ) use ($search) {
+                      $subQ->where('name', 'LIKE', '%' . $search . '%');
+                  })
+                  ->orWhere('status', 'LIKE', '%' . $search . '%')
+                  ->orWhereHas('staff', function ($subQ) use ($search) {
+                      $subQ->where('name', 'LIKE', '%' . $search . '%');
+                  });
+            });
+        }
+
+        // Category filter
+        if ($request->filled('category_id')) {
+            $query->where('category_id', $request->category_id);
+        }
+
+        // Status filter
+        if ($request->filled('status')) {
+            $query->where('status', $request->status);
+        }
+
+        // Prioritaskan status proses, lalu lainnya berdasarkan created_at terbaru
+        $query->orderByRaw("FIELD(status, 'proses', 'baru', 'selesai', 'ditolak')");
+        $query->latest();
+
+        $tickets = $query->paginate(12)->appends($request->query());
+
+        $statusList = Ticket::daftarStatus();
+        $categories = Category::orderBy('name')->get();
+
+        return view('staff.ticket.index', [
+            'tickets' => $tickets,
+            'statusList' => $statusList,
+            'categories' => $categories,
+            'staffCategoryIds' => $staffCategoryIds,
+            'isAssignedView' => false,
+        ]);
+    }
+
+    /**
+     * Daftar tiket yang ditugaskan ke staff (assigned_to = user).
+     */
+    public function staffAssigned(Request $request)
+    {
+        $user = auth()->user();
+        $staffCategoryIds = $user->categories->pluck('id')->toArray();
+
+        $query = Ticket::with(['staff', 'category'])
+            ->where('assigned_to', $user->id);
+
+        if ($request->filled('search')) {
+            $search = $request->search;
+            $query->where(function ($q) use ($search) {
+                $q->where('nama_mahasiswa', 'LIKE', '%' . $search . '%')
+                  ->orWhere('judul', 'LIKE', '%' . $search . '%')
+                  ->orWhereHas('category', function ($subQ) use ($search) {
+                      $subQ->where('name', 'LIKE', '%' . $search . '%');
+                  })
+                  ->orWhere('status', 'LIKE', '%' . $search . '%');
+            });
+        }
+
+        if ($request->filled('category_id')) {
+            $query->where('category_id', $request->category_id);
+        }
+
+        if ($request->filled('status')) {
+            $query->where('status', $request->status);
+        }
+
+        $query->orderByRaw("FIELD(status, 'proses', 'baru', 'selesai', 'ditolak')");
+        $query->latest();
+
+        $tickets = $query->paginate(12)->appends($request->query());
+
+        $statusList = Ticket::daftarStatus();
+        $categories = Category::orderBy('name')->get();
+
+        return view('staff.ticket.index', [
+            'tickets' => $tickets,
+            'statusList' => $statusList,
+            'categories' => $categories,
+            'staffCategoryIds' => $staffCategoryIds,
+            'isAssignedView' => true,
+        ]);
+    }
+
+    /**
+     * Form tambah tiket baru untuk staff.
+     */
+    public function staffCreate()
+    {
+        $user = auth()->user();
+        $statusList = Ticket::daftarStatus();
+        
+        // Load categories - gunakan collection untuk memastikan relasi ter-load
+        $categories = $user->categories;
+        
+        if ($categories->isEmpty()) {
+            return redirect()
+                ->route('staff.ticket.index')
+                ->with('error', 'Anda belum memiliki kategori yang ditugaskan. Silakan hubungi admin.');
+        }
+        
+        // Sort categories by name
+        $categories = $categories->sortBy('name')->values();
+
+        return view('staff.ticket.create', compact('statusList', 'categories'));
+    }
+
+    /**
+     * Simpan tiket baru untuk staff.
+     */
+    public function staffStore(Request $request)
+    {
+        $user = auth()->user();
+        // Load categories dulu untuk memastikan relasi ter-load
+        $userCategoryIds = $user->categories->pluck('id')->toArray();
+
+        $request->validate([
+            'nim' => ['nullable', 'string', 'max:50'],
+            'nama_mahasiswa' => ['nullable', 'string', 'max:191'],
+            'judul' => ['required', 'string', 'max:191'],
+            'category_id' => [
+                'required',
+                'exists:categories,id',
+                function ($attribute, $value, $fail) use ($userCategoryIds) {
+                    if (!in_array((int)$value, $userCategoryIds)) {
+                        $fail('Kategori yang dipilih tidak sesuai dengan kategori Anda.');
+                    }
+                }
+            ],
+            'deskripsi' => ['nullable', 'string'],
+            'status' => ['required', 'string'],
+        ]);
+
+        Ticket::create([
+            'nim' => $request->nim,
+            'nama_mahasiswa' => $request->nama_mahasiswa,
+            'category_id' => $request->category_id,
+            'judul' => $request->judul,
+            'deskripsi' => $request->deskripsi,
+            'status' => $request->status,
+            'assigned_to' => $user->id, // Auto assign ke staff yang membuat
+        ]);
+
+        return redirect()
+            ->route('staff.ticket.index')
+            ->with('success', 'Tiket helpdesk berhasil dibuat.');
+    }
+
+    /**
+     * Form edit tiket untuk staff.
+     */
+    public function staffEdit(Ticket $ticket)
+    {
+        $user = auth()->user();
+        // Load categories dulu untuk memastikan relasi ter-load
+        $userCategoryIds = $user->categories->pluck('id')->toArray();
+
+        // Pastikan tiket memiliki kategori yang sesuai dengan staff
+        if (!in_array((int)$ticket->category_id, $userCategoryIds)) {
+            abort(403, 'Anda tidak memiliki akses untuk mengedit tiket ini.');
+        }
+
+        $statusList = Ticket::daftarStatus();
+        // Gunakan collection yang sudah di-load dan sort
+        $categories = $user->categories->sortBy('name')->values();
+
+        return view('staff.ticket.edit', compact('ticket', 'statusList', 'categories'));
+    }
+
+    /**
+     * Update tiket untuk staff.
+     */
+    public function staffUpdate(Request $request, Ticket $ticket)
+    {
+        $user = auth()->user();
+        // Load categories dulu untuk memastikan relasi ter-load
+        $userCategoryIds = $user->categories->pluck('id')->toArray();
+
+        // Pastikan tiket memiliki kategori yang sesuai dengan staff
+        if (!in_array((int)$ticket->category_id, $userCategoryIds)) {
+            abort(403, 'Anda tidak memiliki akses untuk mengedit tiket ini.');
+        }
+
+        $request->validate([
+            'nim' => ['nullable', 'string', 'max:50'],
+            'nama_mahasiswa' => ['nullable', 'string', 'max:191'],
+            'judul' => ['required', 'string', 'max:191'],
+            'category_id' => [
+                'required',
+                'exists:categories,id',
+                function ($attribute, $value, $fail) use ($userCategoryIds) {
+                    if (!in_array((int)$value, $userCategoryIds)) {
+                        $fail('Kategori yang dipilih tidak sesuai dengan kategori Anda.');
+                    }
+                }
+            ],
+            'deskripsi' => ['nullable', 'string'],
+            'status' => ['required', 'string'],
+        ]);
+
+        $ticket->update([
+            'nim' => $request->nim,
+            'nama_mahasiswa' => $request->nama_mahasiswa,
+            'category_id' => $request->category_id,
+            'judul' => $request->judul,
+            'deskripsi' => $request->deskripsi,
+            'status' => $request->status,
+            'assigned_to' => $user->id, // Update assigned_to ke staff yang mengupdate
+        ]);
+
+        return redirect()
+            ->route('staff.ticket.index')
+            ->with('success', 'Tiket helpdesk berhasil diperbarui.');
+    }
 }

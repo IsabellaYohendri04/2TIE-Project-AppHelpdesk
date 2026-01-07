@@ -44,6 +44,18 @@
 </div>
 <!-- [Mobile Media Block end] -->
 <div class="ms-auto">
+  @php
+    $user = auth()->user();
+    $notificationsQuery = \App\Models\Ticket::with(['category', 'staff'])->latest();
+
+    if ($user && $user->hasRole('staff')) {
+        $categoryIds = $user->categories->pluck('id');
+        $notificationsQuery->whereIn('category_id', $categoryIds);
+    }
+
+    $notifications = $notificationsQuery->take(5)->get();
+    $notifCount = $notifications->count();
+  @endphp
   <ul class="list-unstyled">
     <li class="dropdown pc-h-item">
       <a
@@ -55,48 +67,65 @@
         aria-expanded="false"
       >
         <i class="ti ti-bell"></i>
+        @if($notifCount > 0)
+          <span class="badge bg-danger rounded-pill position-absolute top-0 start-100 translate-middle p-1">{{ $notifCount }}</span>
+        @endif
       </a>
       <div class="dropdown-menu dropdown-notification dropdown-menu-end pc-h-dropdown">
         <div class="dropdown-header">
-          <a href="#!" class="link-primary float-end text-decoration-underline">Mark as all read</a>
           <h5>
-            All Notification
-            <span class="badge bg-warning rounded-pill ms-1">01</span>
+            Notifikasi
+            <span class="badge bg-warning rounded-pill ms-1">{{ $notifCount }}</span>
           </h5>
         </div>
         <div class="dropdown-header px-0 text-wrap header-notification-scroll position-relative" style="max-height: calc(100vh - 215px)">
           <div class="list-group list-group-flush w-100">
-            <div class="list-group-item list-group-item-action">
-              <div class="d-flex">
-                <div class="flex-shrink-0">
-                  <div class="user-avtar bg-light-success"><i class="ti ti-building-store"></i></div>
-                </div>
-                <div class="flex-grow-1 ms-1">
-                  <span class="float-end text-muted">3 min ago</span>
-                  <h5>Store Verification Done</h5>
-                  <p class="text-body fs-6">We have successfully received your request.</p>
-                  <div class="badge rounded-pill bg-light-danger">Unread</div>
+            @forelse($notifications as $ticket)
+              @php
+                $statusBadge = match($ticket->status) {
+                  \App\Models\Ticket::STATUS_BARU => 'badge bg-primary',
+                  \App\Models\Ticket::STATUS_PROSES => 'badge bg-warning text-dark',
+                  \App\Models\Ticket::STATUS_SELESAI => 'badge bg-success',
+                  \App\Models\Ticket::STATUS_DITOLAK => 'badge bg-danger',
+                  default => 'badge bg-secondary',
+                };
+                $statusLabel = \App\Models\Ticket::daftarStatus()[$ticket->status] ?? ucfirst($ticket->status);
+              @endphp
+              <div class="list-group-item list-group-item-action">
+                <div class="d-flex">
+                  <div class="flex-shrink-0">
+                    <div class="user-avtar bg-light-primary text-primary">
+                      <i class="ti ti-ticket"></i>
+                    </div>
+                  </div>
+                  <div class="flex-grow-1 ms-1">
+                    <span class="float-end text-muted">{{ $ticket->created_at?->diffForHumans() }}</span>
+                    <h5 class="mb-1">{{ $ticket->judul }}</h5>
+                    <p class="text-body fs-6 mb-1">
+                      {{ \Illuminate\Support\Str::limit($ticket->deskripsi, 80) ?? 'Tanpa deskripsi' }}
+                    </p>
+                    <div class="d-flex gap-2 align-items-center flex-wrap">
+                      <span class="{{ $statusBadge }}">{{ $statusLabel }}</span>
+                      @if($ticket->category)
+                        <span class="badge bg-light text-dark">{{ $ticket->category->name }}</span>
+                      @endif
+                      @if($ticket->staff)
+                        <span class="badge bg-light text-dark"><i class="ti ti-user"></i> {{ $ticket->staff->name }}</span>
+                      @endif
+                    </div>
+                  </div>
                 </div>
               </div>
-            </div>
-            <div class="list-group-item list-group-item-action">
-              <div class="d-flex">
-                <div class="flex-shrink-0">
-                  <img src="{{ asset('assets/images/user/avatar-3.jpg') }}" alt="user-image" class="user-avtar" />
-                </div>
-                <div class="flex-grow-1 ms-1">
-                  <span class="float-end text-muted">10 min ago</span>
-                  <h5>Joseph William</h5>
-                  <p class="text-body fs-6">It is a long established fact that a reader will be distracted</p>
-                  <div class="badge rounded-pill bg-light-success">Confirmation of Account</div>
-                </div>
+            @empty
+              <div class="list-group-item">
+                <p class="mb-0 text-muted text-center">Tidak ada notifikasi.</p>
               </div>
-            </div>
+            @endforelse
           </div>
         </div>
         <div class="dropdown-divider"></div>
         <div class="text-center py-2">
-          <a href="#!" class="link-primary">Mark as all read</a>
+          <span class="text-muted small">Menampilkan {{ $notifCount }} notifikasi terbaru</span>
         </div>
       </div>
     </li>
@@ -109,43 +138,48 @@
         aria-haspopup="false"
         aria-expanded="false"
       >
-        <img src="{{ asset('assets/images/user/avatar-2.jpg') }}" alt="user-image" class="user-avtar" />
+        @php
+          $user = auth()->user();
+          $profilePicture = $user->profile_picture 
+            ? \Illuminate\Support\Facades\Storage::url($user->profile_picture) 
+            : asset('assets/images/user/avatar-2.jpg');
+        @endphp
+        <img src="{{ $profilePicture }}" alt="user-image" class="user-avtar" />
         <span>
           <i class="ti ti-settings"></i>
         </span>
       </a>
       <div class="dropdown-menu dropdown-user-profile dropdown-menu-end pc-h-dropdown">
         <div class="dropdown-header">
-          <h4>
-            Good Morning,
-            <span class="small text-muted">John Doe</span>
-          </h4>
-          <p class="text-muted">Project Admin</p>
+          <div class="d-flex align-items-center mb-2">
+            <img src="{{ $profilePicture }}" alt="user-image" class="user-avtar me-2" style="width: 50px; height: 50px;" />
+            <div>
+              <h5 class="mb-0">{{ $user->name }}</h5>
+              <p class="text-muted small mb-0">{{ $user->email }}</p>
+              <span class="badge bg-primary mt-1">
+                @if($user->hasRole('admin'))
+                  Admin
+                @elseif($user->hasRole('staff'))
+                  Staff
+                @else
+                  User
+                @endif
+              </span>
+            </div>
+          </div>
           <hr />
           <div class="profile-notification-scroll position-relative" style="max-height: calc(100vh - 280px)">
-            <div class="upgradeplan-block bg-light-warning rounded">
-              <h4>Explore full code</h4>
-              <p class="text-muted">Buy now to get full access of code files</p>
-              <a href="https://codedthemes.com/item/berry-bootstrap-5-admin-template/" target="_blank" class="btn btn-warning">Buy Now</a>
-            </div>
-            <hr />
-            <a href="../application/account-profile-v1.html" class="dropdown-item">
+            <a href="{{ route('profile.edit') }}" class="dropdown-item">
               <i class="ti ti-settings"></i>
-              <span>Account Settings</span>
-            </a>
-            <a href="../application/social-profile.html" class="dropdown-item">
-              <i class="ti ti-user"></i>
-              <span>Social Profile</span>
+              <span>Profile Settings</span>
             </a>
             <a href="#" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#logoutModal">
-    <i class="ti ti-logout"></i>
-    <span>Logout</span>
-</a>
-<form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-    @csrf
-</form>
-
-
+              <i class="ti ti-logout"></i>
+              <span>Logout</span>
+            </a>
+            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+              @csrf
+            </form>
           </div>
         </div>
       </div>

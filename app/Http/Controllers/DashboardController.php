@@ -20,7 +20,7 @@ public function index()
 
     $completedTickets = Ticket::where('status', 'selesai')->count();
 
-    // ✔ SPATIE ROLE (FIX ERROR)
+    
     $totalStaff = User::role('staff')->count();
 
     $latestTickets = Ticket::with('category')

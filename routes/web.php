@@ -50,6 +50,14 @@ Route::middleware('auth')->group(function () {
     Route::post('/save', [MultipleuploadsController::class, 'store'])
         ->name('uploads.store');
 
+    // Profile Settings
+    Route::get('/profile', [\App\Http\Controllers\ProfileController::class, 'edit'])
+        ->name('profile.edit');
+    Route::put('/profile', [\App\Http\Controllers\ProfileController::class, 'update'])
+        ->name('profile.update');
+    Route::delete('/profile/picture', [\App\Http\Controllers\ProfileController::class, 'destroyPicture'])
+        ->name('profile.picture.destroy');
+
     /*
     |--------------------------------------------------------------------------
     | ADMIN ONLY
@@ -72,6 +80,31 @@ Route::middleware('auth')->group(function () {
                 ->name('category.staffs');
 
             Route::resource('category', CategoryController::class);
+
+        });
+
+    /*
+    |--------------------------------------------------------------------------
+    | STAFF ONLY
+    |--------------------------------------------------------------------------
+    */
+    Route::middleware('role:staff')
+        ->prefix('staff')
+        ->name('staff.')
+        ->group(function () {
+
+            Route::get('ticket', [TicketController::class, 'staffIndex'])
+                ->name('ticket.index');
+            Route::get('ticket/assigned', [TicketController::class, 'staffAssigned'])
+                ->name('ticket.assigned');
+            Route::get('ticket/create', [TicketController::class, 'staffCreate'])
+                ->name('ticket.create');
+            Route::post('ticket', [TicketController::class, 'staffStore'])
+                ->name('ticket.store');
+            Route::get('ticket/{ticket}/edit', [TicketController::class, 'staffEdit'])
+                ->name('ticket.edit');
+            Route::put('ticket/{ticket}', [TicketController::class, 'staffUpdate'])
+                ->name('ticket.update');
 
         });
 

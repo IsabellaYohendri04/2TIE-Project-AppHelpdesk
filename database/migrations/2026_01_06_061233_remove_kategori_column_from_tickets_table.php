@@ -1,0 +1,36 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     * 
+     * Menghapus kolom 'kategori' yang lama karena sudah menggunakan 'category_id' sebagai foreign key
+     */
+    public function up(): void
+    {
+        Schema::table('tickets', function (Blueprint $table) {
+            // Hapus kolom kategori jika ada
+            if (Schema::hasColumn('tickets', 'kategori')) {
+                $table->dropColumn('kategori');
+            }
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::table('tickets', function (Blueprint $table) {
+            // Jika perlu rollback, tambahkan kembali kolom kategori
+            if (!Schema::hasColumn('tickets', 'kategori')) {
+                $table->string('kategori')->nullable()->after('judul');
+            }
+        });
+    }
+};

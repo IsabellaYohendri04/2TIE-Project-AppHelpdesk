@@ -1,0 +1,58 @@
+@csrf
+
+<div class="row">
+  <div class="col-md-6 mb-3">
+    <label class="form-label">NIM Mahasiswa</label>
+    <input type="text" name="nim" class="form-control" value="{{ old('nim', isset($ticket) ? $ticket->nim : '') }}" placeholder="Contoh: 123456789">
+  </div>
+  <div class="col-md-6 mb-3">
+    <label class="form-label">Nama Mahasiswa</label>
+    <input type="text" name="nama_mahasiswa" class="form-control" value="{{ old('nama_mahasiswa', isset($ticket) ? $ticket->nama_mahasiswa : '') }}" placeholder="Nama lengkap">
+  </div>
+</div>
+
+<div class="mb-3">
+  <label class="form-label">Judul Permasalahan <span class="text-danger">*</span></label>
+  <input type="text" name="judul" class="form-control" value="{{ old('judul', isset($ticket) ? $ticket->judul : '') }}" required placeholder="Contoh: Lupa Password SIAK">
+</div>
+
+<div class="row">
+  <div class="col-md-6 mb-3">
+    <label class="form-label">Kategori <span class="text-danger">*</span></label>
+    <select name="category_id" class="form-select" required>
+      @php $currentCategory = old('category_id', isset($ticket) ? $ticket->category_id : ''); @endphp
+      <option value="" disabled {{ $currentCategory === '' ? 'selected' : '' }}>-- Pilih Kategori --</option>
+      @foreach($categories as $category)
+        <option value="{{ $category->id }}" {{ (string)$currentCategory === (string)$category->id ? 'selected' : '' }}>
+          {{ $category->name }}
+        </option>
+      @endforeach
+    </select>
+  </div>
+  <div class="col-md-6 mb-3">
+    <label class="form-label">Status <span class="text-danger">*</span></label>
+    <select name="status" class="form-select" required>
+      @php $currentStatus = old('status', isset($ticket) ? $ticket->status : \App\Models\Ticket::STATUS_BARU); @endphp
+      @foreach($statusList as $key => $label)
+        <option value="{{ $key }}" {{ $currentStatus === $key ? 'selected' : '' }}>
+          {{ $label }}
+        </option>
+      @endforeach
+    </select>
+  </div>
+</div>
+
+<div class="mb-3">
+  <label class="form-label">Deskripsi / Detail Permasalahan</label>
+  <textarea name="deskripsi" class="form-control" rows="4" placeholder="Ceritakan kronologi singkat masalah yang terjadi...">{{ old('deskripsi', isset($ticket) ? $ticket->deskripsi : '') }}</textarea>
+</div>
+
+<div class="d-flex justify-content-between mt-3">
+  <a href="{{ route('staff.ticket.index') }}" class="btn btn-light">
+    <i class="ti ti-arrow-left me-1"></i> Kembali
+  </a>
+  <button type="submit" class="btn btn-primary">
+    <i class="ti ti-device-floppy me-1"></i> Simpan
+  </button>
+</div>
+
