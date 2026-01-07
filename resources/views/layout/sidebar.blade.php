@@ -1,19 +1,15 @@
 <nav class="pc-sidebar">
   <div class="navbar-wrapper">
     <div class="m-header">
-      <a href="{{ route('dashboard') }}" class="b-brand text-primary">
+      <a href="{{ route('dashboard') }}" >
         <!-- ========   Change your logo from here   ============ -->
-       {{-- <img src="{{ asset('logo/logo1.png') }}" alt="Logo Helpdesk" class="logo logo-lg" /> --}}
-<a href="{{ route('dashboard') }}" class="b-brand text-primary">
-    <img src="{{ asset('assets/logo/logo1.png') }}"
-         class="logo logo-lg"
-         alt="Logo Helpdesk">
+        @auth
 
-    <img src="{{ asset('assets/logo/logo1.png') }}"
-         class="logo logo-sm"
-         alt="Logo Helpdesk">
-</a>
-
+      <span class="fw-semibold text-dark border-bottom text-2xl ">
+        Halo, {{ auth()->user()->name }} !!
+      </span>
+    
+    @endauth 
 
       </a>
     </div>

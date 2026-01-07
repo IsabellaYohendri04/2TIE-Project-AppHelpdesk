@@ -16,7 +16,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Berry CSS -->
-    <link rel="icon" href="{{ asset('assets/images/favicon.svg') }}" type="image/x-icon" />
+    <link rel="icon" href="{{ asset('assets/logo/logo1.png') }}" type="image/x-icon" />
     <link rel="stylesheet" href="{{ asset('assets/fonts/tabler-icons.min.css') }}" />
     <link rel="stylesheet" href="{{ asset('assets/fonts/fontawesome.css') }}" />
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}" />

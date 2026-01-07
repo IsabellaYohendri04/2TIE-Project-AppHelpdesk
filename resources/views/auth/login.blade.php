@@ -1,13 +1,13 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <title>Login | Berry Dashboard Template</title>
+  <title>Login </title>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 
   <!-- Favicon -->
-  <link rel="icon" href="../assets/images/favicon.svg" type="image/x-icon" />
+  <link rel="icon" href="{{ asset('assets/logo/logo1.png')}}" type="image/x-icon" />
 
   <!-- Google Font -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" />
