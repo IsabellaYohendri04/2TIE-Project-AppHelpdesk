@@ -3,7 +3,18 @@
     <div class="m-header">
       <a href="{{ route('dashboard') }}" class="b-brand text-primary">
         <!-- ========   Change your logo from here   ============ -->
-        <img src="{{ asset('assets/images/logo-dark.svg') }}" alt="Logo Helpdesk" class="logo logo-lg" />
+       {{-- <img src="{{ asset('logo/logo1.png') }}" alt="Logo Helpdesk" class="logo logo-lg" /> --}}
+<a href="{{ route('dashboard') }}" class="b-brand text-primary">
+    <img src="{{ asset('assets/logo/logo1.png') }}"
+         class="logo logo-lg"
+         alt="Logo Helpdesk">
+
+    <img src="{{ asset('assets/logo/logo1.png') }}"
+         class="logo logo-sm"
+         alt="Logo Helpdesk">
+</a>
+
+
       </a>
     </div>
     <div class="navbar-content">
@@ -67,59 +78,15 @@
           <label>Other</label>
           <i class="ti ti-brand-chrome"></i>
         </li>
-        <li class="pc-item pc-hasmenu">
-          <a href="#!" class="pc-link"><span class="pc-micon"><i class="ti ti-menu"></i></span><span
-              class="pc-mtext">Menu levels</span><span class="pc-arrow"><i data-feather="chevron-right"></i></span></a>
-          <ul class="pc-submenu">
-            <li class="pc-item"><a class="pc-link" href="#!">Level 2.1</a></li>
-            <li class="pc-item pc-hasmenu">
-              <a href="#!" class="pc-link">Level 2.2<span class="pc-arrow"><i
-                    data-feather="chevron-right"></i></span></a>
-              <ul class="pc-submenu">
-                <li class="pc-item"><a class="pc-link" href="#!">Level 3.1</a></li>
-                <li class="pc-item"><a class="pc-link" href="#!">Level 3.2</a></li>
-                <li class="pc-item pc-hasmenu">
-                  <a href="#!" class="pc-link">Level 3.3<span class="pc-arrow"><i
-                        data-feather="chevron-right"></i></span></a>
-                  <ul class="pc-submenu">
-                    <li class="pc-item"><a class="pc-link" href="#!">Level 4.1</a></li>
-                    <li class="pc-item"><a class="pc-link" href="#!">Level 4.2</a></li>
-                  </ul>
-                </li>
-              </ul>
-            </li>
-            <li class="pc-item pc-hasmenu">
-              <a href="#!" class="pc-link">Level 2.3<span class="pc-arrow"><i
-                    data-feather="chevron-right"></i></span></a>
-              <ul class="pc-submenu">
-                <li class="pc-item"><a class="pc-link" href="#!">Level 3.1</a></li>
-                <li class="pc-item"><a class="pc-link" href="#!">Level 3.2</a></li>
-                <li class="pc-item pc-hasmenu">
-                  <a href="#!" class="pc-link">Level 3.3<span class="pc-arrow"><i
-                        data-feather="chevron-right"></i></span></a>
-                  <ul class="pc-submenu">
-                    <li class="pc-item"><a class="pc-link" href="#!">Level 4.1</a></li>
-                    <li class="pc-item"><a class="pc-link" href="#!">Level 4.2</a></li>
-                  </ul>
-                </li>
-              </ul>
-            </li>
-          </ul>
-        </li>
-        <li class="pc-item">
-          <a href="../other/sample-page.html" class="pc-link">
-            <span class="pc-micon"><i class="ti ti-brand-chrome"></i></span>
-            <span class="pc-mtext">Sample page</span>
-          </a>
-        </li>
+       
 
       </ul>
       <div class="pc-navbar-card bg-primary rounded">
-        <h4 class="text-white">Explore full code</h4>
-        <p class="text-white opacity-75">Buy now to get full access of code files</p>
-        <a href="https://codedthemes.com/item/berry-bootstrap-5-admin-template/" target="_blank"
+        <h4 class="text-white">Lapor</h4>
+        <p class="text-white opacity-75">Penasaran dengan lapor mahasiswa ? klik button di bawah!</p>
+        <a href="{{ route('logout') }}" target="_blank"
           class="btn btn-light text-primary">
-          Buy Now
+          Beranda Lapor
         </a>
       </div>
       <div class="w-100 text-center">

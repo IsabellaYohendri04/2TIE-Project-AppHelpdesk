@@ -199,5 +199,8 @@
 
 @push('js')
 <script src="{{ asset('assets/js/plugins/apexcharts.min.js') }}"></script>
+<script>
+window.monthlyTickets = @json($monthlyTickets);
+</script>
 <script src="{{ asset('assets/js/pages/dashboard-default.js') }}"></script>
 @endpush

@@ -75,14 +75,8 @@ class CategoryController extends Controller
         return redirect()->route('admin.category.index')->with('success', 'Kategori berhasil dihapus.');
     }
 
-    /**
-     * Ambil daftar staf pada kategori (untuk modal popup).
-     */
-    public function staffs(Category $category)
-    {
-        $staffs = $category->users()->orderBy('name')->get(['id', 'name', 'email']);
-        return response()->json($staffs, 200, ['Content-Type' => 'application/json']);
-    }
+   
+    
 }
 
 

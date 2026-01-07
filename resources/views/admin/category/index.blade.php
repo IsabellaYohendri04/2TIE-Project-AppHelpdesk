@@ -58,19 +58,7 @@
                 <td>{{ $loop->iteration + ($categories->firstItem() - 1) }}</td>
                 <td>{{ $category->name }}</td>
                 <td>{{ $category->description ?? '-' }}</td>
-                <td>
-                  <button
-                    type="button"
-                    class="btn btn-sm btn-outline-primary btn-staff-pop"
-                    data-bs-toggle="modal"
-                    data-bs-target="#staffCategoryModal"
-                    data-category-id="{{ $category->id }}"
-                    data-category-name="{{ $category->name }}"
-                    data-staff-url="{{ route('admin.category.staffs', $category) }}"
-                  >
-                    {{ $category->users_count }} staf
-                  </button>
-                </td>
+                <td> <span class="badge bg-primary">{{ $category->users_count }}  tiket</span> </td> 
                 <td>
                   <span class="badge bg-secondary">{{ $category->tickets_count }} tiket</span>
                 </td>
@@ -113,24 +101,7 @@
   </div>
 </div>
 
-<!-- Modal daftar staf per kategori -->
-<div class="modal fade" id="staffCategoryModal" tabindex="-1" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content border-0 shadow-lg">
-      <div class="modal-header bg-primary text-white">
-        <h5 class="modal-title">
-          <i class="ti ti-users me-1"></i> Staf pada Kategori: <span id="staff-cat-name"></span>
-        </h5>
-        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
-      </div>
-      <div class="modal-body">
-        <div id="staff-cat-list" class="list-group">
-          <div class="text-center text-muted py-2">Memuat...</div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
+
 
 <!-- Modal Konfirmasi Hapus Kategori -->
 <div class="modal fade" id="deleteCategoryModal" tabindex="-1" aria-hidden="true">
@@ -168,61 +139,6 @@
 
 @push('js')
 <script>
-  document.addEventListener('DOMContentLoaded', function () {
-    const loader = document.querySelector('.loader-bg');
-    if (loader) loader.style.display = 'none';
-
-    const modal = document.getElementById('staffCategoryModal');
-    const nameSpan = document.getElementById('staff-cat-name');
-    const listContainer = document.getElementById('staff-cat-list');
-
-    document.querySelectorAll('.btn-staff-pop').forEach(btn => {
-      btn.addEventListener('click', function () {
-        const categoryId = this.getAttribute('data-category-id');
-        const categoryName = this.getAttribute('data-category-name');
-        nameSpan.textContent = categoryName;
-        listContainer.innerHTML = '<div class="text-center text-muted py-2">Memuat...</div>';
-
-        const url = this.getAttribute('data-staff-url');
-        fetch(url, {
-          headers: {
-            'Accept': 'application/json',
-            'X-Requested-With': 'XMLHttpRequest',
-          },
-        })
-          .then(res => {
-            const contentType = res.headers.get('content-type') || '';
-            if (!res.ok || !contentType.includes('application/json')) {
-              throw new Error('Gagal memuat staf');
-            }
-            return res.json();
-          })
-          .then(data => {
-            if (!data || data.length === 0) {
-              listContainer.innerHTML = '<div class="text-center text-muted py-2">Belum ada staf di kategori ini.</div>';
-              return;
-            }
-            let html = '';
-            data.forEach(staff => {
-              html += `
-                <div class="list-group-item d-flex justify-content-between align-items-center">
-                  <div>
-                    <div class="fw-semibold">${staff.name}</div>
-                    <small class="text-muted">${staff.email}</small>
-                  </div>
-                  <span class="badge bg-light text-dark">ID: ${staff.id}</span>
-                </div>
-              `;
-            });
-            listContainer.innerHTML = html;
-          })
-          .catch((err) => {
-            console.error(err);
-            listContainer.innerHTML = '<div class="text-center text-danger py-2">Gagal memuat data.</div>';
-          });
-      });
-    });
-
     // JavaScript untuk modal hapus kategori
     let categoryIdToDelete = null;
     const categoryNameSpan = document.getElementById('delete-category-name');
