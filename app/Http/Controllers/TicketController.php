@@ -20,15 +20,15 @@ class TicketController extends Controller
         if ($request->filled('search')) {
             $search = $request->search;
             $query->where(function ($q) use ($search) {
-                $q->where('nama_mahasiswa', 'LIKE', '%' . $search . '%')
-                  ->orWhere('judul', 'LIKE', '%' . $search . '%')
-                  ->orWhereHas('category', function ($subQ) use ($search) {
-                      $subQ->where('name', 'LIKE', '%' . $search . '%');
-                  })
-                  ->orWhere('status', 'LIKE', '%' . $search . '%')
-                  ->orWhereHas('staff', function ($subQ) use ($search) {
-                      $subQ->where('name', 'LIKE', '%' . $search . '%');
-                  });
+                $q->where('nama_mahasiswa', 'LIKE', '%'.$search.'%')
+                    ->orWhere('judul', 'LIKE', '%'.$search.'%')
+                    ->orWhereHas('category', function ($subQ) use ($search) {
+                        $subQ->where('name', 'LIKE', '%'.$search.'%');
+                    })
+                    ->orWhere('status', 'LIKE', '%'.$search.'%')
+                    ->orWhereHas('staff', function ($subQ) use ($search) {
+                        $subQ->where('name', 'LIKE', '%'.$search.'%');
+                    });
             });
         }
 
@@ -202,15 +202,15 @@ class TicketController extends Controller
         if ($request->filled('search')) {
             $search = $request->search;
             $query->where(function ($q) use ($search) {
-                $q->where('nama_mahasiswa', 'LIKE', '%' . $search . '%')
-                  ->orWhere('judul', 'LIKE', '%' . $search . '%')
-                  ->orWhereHas('category', function ($subQ) use ($search) {
-                      $subQ->where('name', 'LIKE', '%' . $search . '%');
-                  })
-                  ->orWhere('status', 'LIKE', '%' . $search . '%')
-                  ->orWhereHas('staff', function ($subQ) use ($search) {
-                      $subQ->where('name', 'LIKE', '%' . $search . '%');
-                  });
+                $q->where('nama_mahasiswa', 'LIKE', '%'.$search.'%')
+                    ->orWhere('judul', 'LIKE', '%'.$search.'%')
+                    ->orWhereHas('category', function ($subQ) use ($search) {
+                        $subQ->where('name', 'LIKE', '%'.$search.'%');
+                    })
+                    ->orWhere('status', 'LIKE', '%'.$search.'%')
+                    ->orWhereHas('staff', function ($subQ) use ($search) {
+                        $subQ->where('name', 'LIKE', '%'.$search.'%');
+                    });
             });
         }
 
@@ -256,12 +256,12 @@ class TicketController extends Controller
         if ($request->filled('search')) {
             $search = $request->search;
             $query->where(function ($q) use ($search) {
-                $q->where('nama_mahasiswa', 'LIKE', '%' . $search . '%')
-                  ->orWhere('judul', 'LIKE', '%' . $search . '%')
-                  ->orWhereHas('category', function ($subQ) use ($search) {
-                      $subQ->where('name', 'LIKE', '%' . $search . '%');
-                  })
-                  ->orWhere('status', 'LIKE', '%' . $search . '%');
+                $q->where('nama_mahasiswa', 'LIKE', '%'.$search.'%')
+                    ->orWhere('judul', 'LIKE', '%'.$search.'%')
+                    ->orWhereHas('category', function ($subQ) use ($search) {
+                        $subQ->where('name', 'LIKE', '%'.$search.'%');
+                    })
+                    ->orWhere('status', 'LIKE', '%'.$search.'%');
             });
         }
 
@@ -297,16 +297,16 @@ class TicketController extends Controller
     {
         $user = auth()->user();
         $statusList = Ticket::daftarStatus();
-        
+
         // Load categories - gunakan collection untuk memastikan relasi ter-load
         $categories = $user->categories;
-        
+
         if ($categories->isEmpty()) {
             return redirect()
                 ->route('staff.ticket.index')
                 ->with('error', 'Anda belum memiliki kategori yang ditugaskan. Silakan hubungi admin.');
         }
-        
+
         // Sort categories by name
         $categories = $categories->sortBy('name')->values();
 
@@ -330,10 +330,10 @@ class TicketController extends Controller
                 'required',
                 'exists:categories,id',
                 function ($attribute, $value, $fail) use ($userCategoryIds) {
-                    if (!in_array((int)$value, $userCategoryIds)) {
+                    if (! in_array((int) $value, $userCategoryIds)) {
                         $fail('Kategori yang dipilih tidak sesuai dengan kategori Anda.');
                     }
-                }
+                },
             ],
             'deskripsi' => ['nullable', 'string'],
             'status' => ['required', 'string'],
@@ -364,7 +364,7 @@ class TicketController extends Controller
         $userCategoryIds = $user->categories->pluck('id')->toArray();
 
         // Pastikan tiket memiliki kategori yang sesuai dengan staff
-        if (!in_array((int)$ticket->category_id, $userCategoryIds)) {
+        if (! in_array((int) $ticket->category_id, $userCategoryIds)) {
             abort(403, 'Anda tidak memiliki akses untuk mengedit tiket ini.');
         }
 
@@ -385,7 +385,7 @@ class TicketController extends Controller
         $userCategoryIds = $user->categories->pluck('id')->toArray();
 
         // Pastikan tiket memiliki kategori yang sesuai dengan staff
-        if (!in_array((int)$ticket->category_id, $userCategoryIds)) {
+        if (! in_array((int) $ticket->category_id, $userCategoryIds)) {
             abort(403, 'Anda tidak memiliki akses untuk mengedit tiket ini.');
         }
 
@@ -397,10 +397,10 @@ class TicketController extends Controller
                 'required',
                 'exists:categories,id',
                 function ($attribute, $value, $fail) use ($userCategoryIds) {
-                    if (!in_array((int)$value, $userCategoryIds)) {
+                    if (! in_array((int) $value, $userCategoryIds)) {
                         $fail('Kategori yang dipilih tidak sesuai dengan kategori Anda.');
                     }
-                }
+                },
             ],
             'deskripsi' => ['nullable', 'string'],
             'status' => ['required', 'string'],

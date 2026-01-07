@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
 use App\Models\Category;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class StaffUserController extends Controller
@@ -20,7 +20,7 @@ class StaffUserController extends Controller
         // Apply search keyword filter on name (username)
         if ($request->filled('search')) {
             $search = $request->search;
-            $query->where('name', 'LIKE', '%' . $search . '%');
+            $query->where('name', 'LIKE', '%'.$search.'%');
         }
 
         // Apply category filter
@@ -43,6 +43,7 @@ class StaffUserController extends Controller
     public function create()
     {
         $categories = Category::orderBy('name')->get();
+
         return view('admin.staff.create', compact('categories'));
     }
 
@@ -93,7 +94,7 @@ class StaffUserController extends Controller
 
         $validated = $request->validate([
             'name' => ['required', 'string', 'max:191'],
-            'email' => ['required', 'string', 'email', 'max:191', 'unique:users,email,' . $staff->id],
+            'email' => ['required', 'string', 'email', 'max:191', 'unique:users,email,'.$staff->id],
             'password' => ['nullable', 'string', 'min:6', 'confirmed'],
             'category_id' => ['nullable', 'exists:categories,id'],
         ]);
@@ -129,5 +130,3 @@ class StaffUserController extends Controller
             ->with('success', 'User staf berhasil dihapus.');
     }
 }
-
-

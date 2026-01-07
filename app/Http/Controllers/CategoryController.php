@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
-use App\Models\User;
 use Illuminate\Http\Request;
 
 class CategoryController extends Controller
@@ -19,11 +18,11 @@ class CategoryController extends Controller
                 // If search is numeric, filter by exact count matches
                 $query->where(function ($q) use ($search) {
                     $q->where('users_count', $search)
-                      ->orWhere('tickets_count', $search);
+                        ->orWhere('tickets_count', $search);
                 });
             } else {
                 // If search is text, filter by category name
-                $query->where('name', 'LIKE', '%' . $search . '%');
+                $query->where('name', 'LIKE', '%'.$search.'%');
             }
         }
 
@@ -59,7 +58,7 @@ class CategoryController extends Controller
     public function update(Request $request, Category $category)
     {
         $validated = $request->validate([
-            'name' => ['required', 'string', 'max:191', 'unique:categories,name,' . $category->id],
+            'name' => ['required', 'string', 'max:191', 'unique:categories,name,'.$category->id],
             'description' => ['nullable', 'string'],
         ]);
 
@@ -74,9 +73,4 @@ class CategoryController extends Controller
 
         return redirect()->route('admin.category.index')->with('success', 'Kategori berhasil dihapus.');
     }
-
-   
-    
 }
-
-

@@ -22,7 +22,7 @@ Route::post('/login', [AuthController::class, 'login'])
 |--------------------------------------------------------------------------
 */
 Route::middleware('guest')->group(function () {
-   
+
     Route::get('/', [LaporController::class, 'index'])
         ->name('lapor.index');
 
@@ -30,6 +30,7 @@ Route::middleware('guest')->group(function () {
         ->name('lapor.store');
 
 });
+
 
 /*
 |--------------------------------------------------------------------------
@@ -109,9 +110,3 @@ Route::middleware('auth')->group(function () {
         });
 
 });
-
-
-Route::post('/logout-to-lapor', function () {
-    session(['redirect_after_logout' => route('lapor.index')]);
-    return redirect()->route('logout');
-})->name('logout.to.lapor');

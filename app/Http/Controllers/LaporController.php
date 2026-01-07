@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Ticket;
 use App\Models\Category;
+use App\Models\Ticket;
 use Illuminate\Http\Request;
 
 class LaporController extends Controller
