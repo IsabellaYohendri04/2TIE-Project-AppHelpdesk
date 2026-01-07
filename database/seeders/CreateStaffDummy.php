@@ -28,7 +28,7 @@ class CreateStaffDummy extends Seeder
 
             // 3. Hubungkan CATEGORY (pivot)
             $staff->categories()->attach(
-                $categoryIds->random(rand(1,3))->toArray()
+                $categoryIds->random()
             );
         }
     }
