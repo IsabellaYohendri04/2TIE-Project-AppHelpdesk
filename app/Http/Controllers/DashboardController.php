@@ -28,7 +28,7 @@ public function index()
     ->take(10)
     ->get();
 
-    // Monthly ticket counts by status for current year
+   
     $monthlyTickets = [
         'baru' => [],
         'proses' => [],
