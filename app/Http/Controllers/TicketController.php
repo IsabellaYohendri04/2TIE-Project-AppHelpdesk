@@ -79,11 +79,11 @@ class TicketController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'nim' => ['nullable', 'string', 'max:50'],
-            'nama_mahasiswa' => [ required,'string', 'max:191'],
+            'nim' => ['required', 'string', 'max:50'],
+            'nama_mahasiswa' => [ 'required','string', 'max:191'],
             'judul' => ['required', 'string', 'max:191'],
             'category_id' => ['required', 'exists:categories,id'],
-            'deskripsi' => ['nullable', 'string'],
+            'deskripsi' => ['required', 'string'],
             'status' => ['required', 'string'],
             'assigned_to' => ['nullable', 'exists:users,id', function ($attribute, $value, $fail) use ($request) {
                 if ($value && $request->category_id) {

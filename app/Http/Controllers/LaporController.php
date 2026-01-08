@@ -25,11 +25,11 @@ class LaporController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'nim' => ['nullable', 'string', 'max:50'],
-            'nama_mahasiswa' => ['nullable', 'string', 'max:191'],
+            'nim' => ['required', 'string', 'max:50'],
+            'nama_mahasiswa' => ['required', 'string', 'max:191'],
             'judul' => ['required', 'string', 'max:191'],
             'category_id' => ['required', 'exists:categories,id'],
-            'deskripsi' => ['nullable', 'string'],
+            'deskripsi' => ['required', 'string'],
         ]);
 
         Ticket::create([
