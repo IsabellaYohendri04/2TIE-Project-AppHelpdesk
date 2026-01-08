@@ -13,7 +13,7 @@ class LaporController extends Controller
         $categories = Category::orderBy('name')->get();
         $tickets = Ticket::with(['staff', 'category'])
             ->latest()
-            ->get();
+            ->paginate(10);
 
         return view('user.lapor', [
             'categories' => $categories,

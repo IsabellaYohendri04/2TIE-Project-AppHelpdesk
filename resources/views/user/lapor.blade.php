@@ -226,8 +226,11 @@
                                     @endforeach
                                 </tbody>
                             </table>
+                        
                         </div>
-
+                        <div class="mt-3 d-flex justify-content-end">
+                         {{ $tickets->onEachSide(1)->links('pagination::bootstrap-5') }}
+                          </div>
                         <!-- PESAN TIDAK ADA HASIL -->
                         <div id="noResults" class="text-center py-5 d-none">
                             <i class="ti ti-search-off" style="font-size: 3rem; color: #ddd;"></i>
