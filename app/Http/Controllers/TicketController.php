@@ -128,11 +128,11 @@ class TicketController extends Controller
     public function update(Request $request, Ticket $ticket)
     {
         $request->validate([
-            'nim' => ['nullable', 'string', 'max:50'],
-            'nama_mahasiswa' => ['nullable', 'string', 'max:191'],
+            'nim' => ['required', 'string', 'max:50'],
+            'nama_mahasiswa' => ['required', 'string', 'max:191'],
             'judul' => ['required', 'string', 'max:191'],
             'category_id' => ['required', 'exists:categories,id'],
-            'deskripsi' => ['nullable', 'string'],
+            'deskripsi' => ['required', 'string'],
             'status' => ['required', 'string'],
             'assigned_to' => [
                 'nullable',
@@ -323,8 +323,8 @@ class TicketController extends Controller
         $userCategoryIds = $user->categories->pluck('id')->toArray();
 
         $request->validate([
-            'nim' => ['nullable', 'string', 'max:50'],
-            'nama_mahasiswa' => ['nullable', 'string', 'max:191'],
+            'nim' => ['required', 'string', 'max:50'],
+            'nama_mahasiswa' => ['required', 'string', 'max:191'],
             'judul' => ['required', 'string', 'max:191'],
             'category_id' => [
                 'required',
@@ -335,7 +335,7 @@ class TicketController extends Controller
                     }
                 },
             ],
-            'deskripsi' => ['nullable', 'string'],
+            'deskripsi' => ['required', 'string'],
             'status' => ['required', 'string'],
         ]);
 
@@ -390,8 +390,8 @@ class TicketController extends Controller
         }
 
         $request->validate([
-            'nim' => ['nullable', 'string', 'max:50'],
-            'nama_mahasiswa' => ['nullable', 'string', 'max:191'],
+            'nim' => ['required', 'string', 'max:50'],
+            'nama_mahasiswa' => ['required', 'string', 'max:191'],
             'judul' => ['required', 'string', 'max:191'],
             'category_id' => [
                 'required',
@@ -402,7 +402,7 @@ class TicketController extends Controller
                     }
                 },
             ],
-            'deskripsi' => ['nullable', 'string'],
+            'deskripsi' => ['required', 'string'],
             'status' => ['required', 'string'],
         ]);
 

@@ -173,7 +173,7 @@
                             </div>
                             
                         </div>
-
+                        
                         <!-- INFO HASIL FILTER -->
                         <div id="filterInfo" class="alert alert-info d-none mb-3">
                             <i class="ti ti-info-circle me-2"></i>
@@ -367,79 +367,97 @@
 
 @push('scripts')
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    const searchInput = document.getElementById('searchInput');
+document.addEventListener('DOMContentLoaded', function () {
+
+    const searchInput  = document.getElementById('searchInput');
     const statusFilter = document.getElementById('statusFilter');
-    const resetFilter = document.getElementById('resetFilter');
-    const searchButton = document.getElementById('searchButton');
-    const filterInfo = document.getElementById('filterInfo');
-    const filterText = document.getElementById('filterText');
-    const noResults = document.getElementById('noResults');
-    const ticketRows = document.querySelectorAll('.ticket-row');
-    
-    function filterTable() {
-        const searchTerm = searchInput.value.toLowerCase().trim();
-        const statusValue = statusFilter.value;
-        let visibleCount = 0;
-        let hiddenCount = 0;
-        
+    const resetFilter  = document.getElementById('resetFilter');
+    const filterInfo   = document.getElementById('filterInfo');
+    const filterText   = document.getElementById('filterText');
+    const noResults    = document.getElementById('noResults');
+    const ticketsTable = document.getElementById('ticketsTable');
+    const ticketRows   = document.querySelectorAll('.ticket-row');
+
+
+    function showAllRows() {
         ticketRows.forEach(row => {
-            const judul = row.getAttribute('data-judul');
-            const detail = row.getAttribute('data-detail');
-            const status = row.getAttribute('data-status');
-            const staf = row.getAttribute('data-staf');
-            
-            const matchesSearch = !searchTerm || 
-                judul.includes(searchTerm) || 
-                detail.includes(searchTerm) || 
+            row.classList.remove('d-none');
+        });
+
+        ticketsTable.classList.remove('d-none');
+        noResults.classList.add('d-none');
+        filterInfo.classList.add('d-none');
+    }
+
+   
+    function filterTable() {
+        const searchTerm  = searchInput.value.toLowerCase().trim();
+        const statusValue = statusFilter.value;
+        let visibleCount  = 0;
+
+        // pastikan tabel selalu tampil sebelum filter
+        ticketsTable.classList.remove('d-none');
+        noResults.classList.add('d-none');
+
+        ticketRows.forEach(row => {
+            const judul  = row.dataset.judul;
+            const detail = row.dataset.detail;
+            const status = row.dataset.status;
+            const staf   = row.dataset.staf;
+
+            const matchesSearch =
+                !searchTerm ||
+                judul.includes(searchTerm) ||
+                detail.includes(searchTerm) ||
                 staf.includes(searchTerm);
-            
-            const matchesStatus = !statusValue || status === statusValue;
-            
+
+            const matchesStatus =
+                !statusValue || status === statusValue;
+
             if (matchesSearch && matchesStatus) {
                 row.classList.remove('d-none');
                 visibleCount++;
             } else {
                 row.classList.add('d-none');
-                hiddenCount++;
             }
         });
-        
-        // Tampilkan pesan jika tidak ada hasil
+
+        // jika tidak ada hasil
         if (visibleCount === 0 && ticketRows.length > 0) {
-            document.getElementById('ticketsTable').classList.add('d-none');
+            ticketsTable.classList.add('d-none');
             noResults.classList.remove('d-none');
-        } else {
-            document.getElementById('ticketsTable').classList.remove('d-none');
-            noResults.classList.add('d-none');
         }
-        
-        // Tampilkan info filter jika ada filter aktif
+
+        // info filter
         if (searchTerm || statusValue) {
-            let infoText = 'Menampilkan ' + visibleCount + ' dari ' + ticketRows.length + ' laporan';
+            let info = `Menampilkan ${visibleCount} dari ${ticketRows.length} laporan`;
+
             if (searchTerm) {
-                infoText += ' dengan kata kunci "' + searchTerm + '"';
+                info += ` dengan kata kunci "${searchTerm}"`;
             }
+
             if (statusValue) {
-                const statusLabel = statusFilter.options[statusFilter.selectedIndex].text;
-                infoText += ' dengan status "' + statusLabel + '"';
+                const label = statusFilter.options[statusFilter.selectedIndex].text;
+                info += ` dengan status "${label}"`;
             }
-            filterText.textContent = infoText;
+
+            filterText.textContent = info;
             filterInfo.classList.remove('d-none');
         } else {
             filterInfo.classList.add('d-none');
         }
     }
-    
+
     searchInput.addEventListener('input', filterTable);
     statusFilter.addEventListener('change', filterTable);
-    searchButton.addEventListener('click', filterTable);
-        
-    resetFilter.addEventListener('click', function() {
-        searchInput.value = '';
+
+    resetFilter.addEventListener('click', function () {
+        searchInput.value  = '';
         statusFilter.value = '';
-        filterTable();
+        showAllRows();
     });
+
 });
 </script>
 @endpush
+
